@@ -3,8 +3,8 @@
 import sys,os
 from PyQt5 import QtWidgets, QtCore, uic
 import numpy as np
-from . widgets import FileSaveDialog,MessageBox
-from . import dataio
+from widgets import FileSaveDialog,MessageBox
+import dataio
 
 
 class MainPanel(QtWidgets.QWidget):

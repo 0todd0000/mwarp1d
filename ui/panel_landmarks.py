@@ -3,7 +3,7 @@
 import sys,os
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import numpy as np
-from . widgets import MessageBox,SimpleDialog
+from widgets import MessageBox,SimpleDialog
 import mwarp1d
 
 

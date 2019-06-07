@@ -2,11 +2,11 @@
 
 import sys,os
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
-from . dataio import DataLandmarks,DataManual
-from . panel_main import MainPanel
-from . panel_landmarks import LandmarksPanel
-from . panel_manual import ManualPanel
-from . widgets import MenuBar
+from dataio import DataLandmarks,DataManual
+from panel_main import MainPanel
+from panel_landmarks import LandmarksPanel
+from panel_manual import ManualPanel
+from widgets import MenuBar
 
 
 class MainWindow(QtWidgets.QMainWindow):
