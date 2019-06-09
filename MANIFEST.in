@@ -1,0 +1,5 @@
+include LICENSE.txt
+include README.md
+include setup.py
+global-include mwarp1d/examples *.py *.csv *.npz
+global-include mwarp1d/ui *.py *.ui
