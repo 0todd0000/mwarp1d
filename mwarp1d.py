@@ -363,15 +363,84 @@ def warp1d_landmarks(y, x0=[0,50,101], x1=[0,50,101], **kwdargs):
 
 
 
-def launch_gui(*args):
-	print('launch_gui')
-	import sys,os
+def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
+	import os
+	narg        = 0
 	
-	dir0  = os.path.dirname(__file__)
-	path2app = os.path.join(dir0, 'ui', 'main.py')
-	print(path2app)
+	# assert input argument types:
+	if data is not None:
+		assert isinstance(data, np.ndarray), '"data" must be a numpy array'
+		assert data.ndim==2, '"data" must be a 2-D numpy array'
+		narg   += 1
+	if mode is not None:
+		modes   = ['landmarks', 'manual']
+		assert mode in modes, '"mode" must be "landmarks" or "manual"'
+		narg   += 1
+	if filename_results is not None:
+		msg     = '"filename_results" must be a valid filename with the extension ".npz"'
+		try:
+			ext = os.path.splitext(filename_results)[1]
+			assert ext == '.npz', msg
+		except:
+			raise ValueError(msg)
+		narg   += 1
+	if filename_data is not None:
+		msg     = '"filename_data" must be an existing data file name with the extension ".csv"'
+		try:
+			ext = os.path.splitext(filename_data)[1]
+			assert ext == '.csv', msg
+			assert os.path.exists(filename_data), msg
+		except:
+			raise ValueError(msg)
+		narg   += 1
+
+
+	# assert patterns:
+	if data is None and filename_data is None:
+		assert mode is None, 'If neither "data" nor "filename_data" are specified, "mode" cannot be specified.'
+		assert filename_results is None, 'If neither "data" nor "filename_data" are specified, "filename_results" cannot be specified.'
+
+	# launch app (Pattern 0): no arguments:
+	path2app  = os.path.join( os.path.dirname(__file__) , 'ui', 'main.py')
+	command   = 'python %s' %path2app
+
+	# (Pattern 0): no arguments:
+	if (data is None) and (filename_data is None):
+		os.system(command)
+
+	# (Pattern 1): data specified:
+	else:
+		if data is not None:
+			fnameCSV    = os.path.join( os.getcwd(), '_temp_mwarp1d.csv' )
+			np.savetxt(fnameCSV, data, delimiter=',')
+			print('mwarp1d: temporary data file written to: %s.' %fnameCSV)
+			
+		else:
+			fnameCSV = filename_data
+		command     += ' %s' %fnameCSV
+		
+		if mode is not None:
+			command += ' %s' %mode
+		if filename_results is not None:
+			command += ' %s' %filename_results
+
+		os.system(command)
+
+	# launch app:
 	
-	os.system(path2app)
+	
+	
+	
+		
+		
+	
+	
+	#
+	# 
+	# 
+	# print(path2app)
+	#
+	# 
 	
 	
 	# from . main import MainApplication,MainWindow

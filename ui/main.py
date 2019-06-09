@@ -28,36 +28,45 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.hlayout0.addWidget( self.panel_main )
 		self.hlayout1.addWidget( self.panel_landmarks )
 		self.hlayout2.addWidget( self.panel_manual )
+		self.setFixedSize(1300, 850)
+		# self.setFixedSize(1300, 400)
 		
 		self._parse_commandline_inputs(argv)
+		
 		
 	
 	
 	def _parse_commandline_inputs(self, argv):
-		narg   = len(argv)
-		if narg > 1:
-			mode   = argv[1]
-			fname0 = argv[2]
-			fname1 = argv[3] if (len(argv) > 3) else None
+		narg     = len(argv)
+		fnameCSV = argv[1] if narg>1 else None
+		mode     = argv[2] if narg>2 else None
+		fnameNPZ = argv[3] if narg>3 else None
 		
+		#default output filename:
+		if fnameNPZ is None:
+			if fnameCSV is None:
+				fnameNPZ    = os.path.join( os.getcwd(), '_mwarp1d.npz' )
+			else:
+				fnameNPZ    = os.path.join( os.path.dirname(fnameCSV), '_mwarp1d.npz' )
+			print('mwarp1d:  session data saved to %s. To save in a different location, specify the desired output file name.' %fnameNPZ)
+
+
+		if mode is not None:
+			if mode not in ['landmarks', 'manual']:
+				raise ValueError('Unknown mode: %s ("mode" must be either "landmarks" or "manual")' %mode)
 			if mode == 'landmarks':
 				data = DataLandmarks()
-			elif mode == 'manual':
-				data = DataManual()
-			else:
-				raise ValueError('Unknown mode: %s ("mode" must be either "landmarks" or "manual")' %mode)
-
-			data.set_input_filename( fname0 )
-			data.set_output_filename( fname1 )
-			data.save()
-		
-			if mode == 'landmarks':
 				self.panel_landmarks.set_data(data)
 				self._set_panel(1)
 			elif mode == 'manual':
+				data = DataManual()
 				self.panel_manual.set_data(data)
 				self._set_panel(2)
-			
+			data.set_input_filename( fnameCSV )
+			data.set_output_filename( fnameNPZ )
+			data.save()
+				
+
 		
 
 	def _set_panel(self, ind):
@@ -127,3 +136,7 @@ if __name__ == '__main__':
 	window.move(0, 0)
 	window.show()
 	sys.exit(app.exec_())
+	
+	
+	
+	

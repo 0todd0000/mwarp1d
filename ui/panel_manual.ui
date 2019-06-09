@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1198</width>
-    <height>731</height>
+    <width>1230</width>
+    <height>825</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,20 +32,53 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="WarpControlWidget" name="warp_controls" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>250</width>
-         <height>580</height>
-        </size>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <property name="topMargin">
+        <number>20</number>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>250</width>
-         <height>580</height>
-        </size>
-       </property>
-      </widget>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="WarpControlWidget" name="warp_controls" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>580</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>250</width>
+           <height>580</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
       <spacer name="verticalSpacer_2">
@@ -231,7 +264,7 @@
        <property name="maximumSize">
         <size>
          <width>800</width>
-         <height>800</height>
+         <height>500</height>
         </size>
        </property>
        <property name="styleSheet">
