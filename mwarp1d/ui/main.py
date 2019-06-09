@@ -15,6 +15,13 @@ class MainWindow(QtWidgets.QMainWindow):
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'main.ui' )
 		uic.loadUi(fnameUI, self)
 		
+		
+		# self.centralWidget = QtWidgets.QWidget(self)
+		# self.setCentralWidget(self.centralWidget)
+		
+		
+		
+		
 		self.label0.setVisible(False)
 		self.label1.setVisible(False)
 		self.label2.setVisible(False)
@@ -23,15 +30,25 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.panel_landmarks = LandmarksPanel(self)
 		self.panel_manual    = ManualPanel(self)
 		self.setMenuBar( MenuBar(self) )
+		# self.panel_main      = MainPanel(self)
+		# self.panel_landmarks = LandmarksPanel(self)
+		# self.panel_manual    = ManualPanel(self)
+		# self.setMenuBar( MenuBar(self) )
 		self._set_panel(0)
 		
 		self.hlayout0.addWidget( self.panel_main )
 		self.hlayout1.addWidget( self.panel_landmarks )
 		self.hlayout2.addWidget( self.panel_manual )
-		self.setFixedSize(1300, 850)
+		
+		self.hlayout0.layout()
+		
+		
+		# self.setFixedSize(1300, 850)
 		# self.setFixedSize(1300, 400)
 		
 		self._parse_commandline_inputs(argv)
+		
+		
 		
 		
 	
@@ -126,6 +143,8 @@ class MainApplication(QtWidgets.QApplication):
 	def __init__(self, *args):
 		self.setApplicationName("Appname")
 		super().__init__(*args)
+		# style = QtWidgets.QStyleFactory.create('Fusion')
+		# self.setStyle(style)
 
 
 
