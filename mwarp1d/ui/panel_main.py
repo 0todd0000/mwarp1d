@@ -63,12 +63,11 @@ class MainPanel(QtWidgets.QWidget):
 			fname = filenames[0]
 			ext   = os.path.splitext(fname)[1]
 			if ext=='.csv':
-				
 				fname1 = self.mainapp.get_results_filename(fname)
 				y      = np.loadtxt(fname, delimiter=',')
 				y0,y   = y[0], y[1:]
-				
-				
+
+
 				self.fname          = fname
 				self.fname1         = fname1
 				self.template_array = y0
@@ -76,10 +75,10 @@ class MainPanel(QtWidgets.QWidget):
 				self._plot()
 				self.label_nsources.setText( str(y.shape[0]) )
 				self.label_nnodes.setText( str(y0.size) )
-				
+
 				self.label_filename_results.setText( fname1 )
 				success = True
-				
+
 			elif ext=='.npz':
 				data = dataio.loadnpz(fname)
 				self.start_npz(data)
@@ -90,7 +89,7 @@ class MainPanel(QtWidgets.QWidget):
 		if success:
 			self.stackedwidget.setCurrentIndex(1)
 			self.groupbox_warping_mode.setEnabled(True)
-			
+
 		
 	def start_npz(self, data):
 		self.mainapp.start_npz(data)

@@ -40,6 +40,12 @@
        <height>100</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
      <property name="title">
       <string>Dial Label</string>
      </property>
@@ -111,7 +117,8 @@
          <widget class="QLabel" name="label_min">
           <property name="font">
            <font>
-            <pointsize>11</pointsize>
+            <family>Arial</family>
+            <pointsize>9</pointsize>
            </font>
           </property>
           <property name="text">
@@ -126,7 +133,8 @@
          <widget class="QLabel" name="label_max">
           <property name="font">
            <font>
-            <pointsize>11</pointsize>
+            <family>Arial</family>
+            <pointsize>8</pointsize>
            </font>
           </property>
           <property name="text">
