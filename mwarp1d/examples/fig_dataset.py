@@ -28,5 +28,5 @@ pyplot.show()
 
 
 # #save figure:
-# fnamePDF = os.path.join(dir0, 'figs', 'fig1.pdf')
+# fnamePDF = os.path.join(dir0, 'figs', 'fig_dataset.pdf')
 # pyplot.savefig(fnamePDF)

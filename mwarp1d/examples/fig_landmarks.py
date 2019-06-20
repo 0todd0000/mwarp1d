@@ -51,5 +51,5 @@ pyplot.show()
 
 
 # #save figure:
-# fnamePDF = os.path.join(dir0, 'figs', 'fig2.pdf')
+# fnamePDF = os.path.join(dir0, 'figs', 'fig_landmarks.pdf')
 # pyplot.savefig(fnamePDF)
