@@ -32,11 +32,15 @@ h1  = ax0.plot(y1, color='0.7', lw=1)[0]
 h2  = ax0.plot(lm0[1:-1], y0[lm0[1:-1]], 'o', color=c0, ms=7)[0]
 h3  = ax0.plot(lm1[1:-1], y1[lm1[1:-1]], 'o', color=c1, ms=7)[0]
 ax0.legend([h0,h1,h2,h3], ['Template', 'Source', 'Template landmarks', 'Source landmarks'], loc='lower right')
+# for x in lm0[1:-1]:
+# 	ax0.plot([x,x],[y0[x],y1[x]], color=c0, ls=':', lw=1)
 #plot warped data:
 h0  = ax1.plot(y0, color='0.0', lw=3)[0]
 h1  = ax1.plot(y1, color='0.7', lw=1)[0]
 h2  = ax1.plot(y1w, color=c1, lw=2)[0]
 ax1.legend([h0,h1,h2], ['Template', 'Source', 'Warped source'], loc='lower right')
+# for x in lm0[1:-1]:
+# 	ax1.plot([x,x],[y0[x],y1w[x]], color=c0, ls=':', lw=1)
 #annotate:
 for ax in [ax0,ax1]:
 	ax.axhline(0, color='k', ls=':')
