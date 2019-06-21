@@ -97,9 +97,9 @@ ax2.set_ylabel('Warped domain  (%)', size=13)
 
 
 #plot warped data:
-ax3.plot(y, color='0.7', lw=5)
+ax3.plot(q0, y, color='0.7', lw=5)
 for yy,c in zip(yw,colors):
-	ax3.plot(yy, color=c)
+	ax3.plot(q0, yy, color=c)
 ax3.axhline(0, color='k', ls=':')
 ax3.legend(['Original data', 'Warped data 1', 'Warped data 2', 'Warped data 3'], loc='lower right')
 ax3.set_xlabel('Domain position  (%)', size=13)
@@ -112,6 +112,6 @@ for i,ax in enumerate([ax0,ax1,ax2,ax3]):
 pyplot.show()
 
 
-# #save figure:
-# fnamePDF = os.path.join(dir0, 'figs', 'fig_warp_overview.pdf')
-# pyplot.savefig(fnamePDF)
+#save figure:
+fnamePDF = os.path.join(dir0, 'figs', 'fig_warp_overview.pdf')
+pyplot.savefig(fnamePDF)
