@@ -65,9 +65,11 @@ ax0.set_ylabel('Displacement  (%)', size=13)
 c = w.center
 ax0.plot([0,c], [0,0], color='k', ls=':')
 ax0.plot([c]*2, [0,dq.max()], color='k', ls=':')
-xh,xt = 14,72
+xh,xt = 10,58
 ax0.plot([xh,c], [dq[xh]]*2, color='k', ls=':')
 ax0.plot([c,xt], [dq[xt]]*2, color='k', ls=':')
+# print(dq[xh]/dq.max(), dq[xt]/dq.max())
+
 
 bbox = dict(facecolor='w', edgecolor='0.7', alpha=0.9)
 ax0.text(0.5*c, 0, 'center', ha='center', bbox=bbox)
