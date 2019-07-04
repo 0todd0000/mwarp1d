@@ -9,7 +9,7 @@ Manual one-dimensional data warping and nonlinear registration in Python and PyQ
 
 setup(
 	name             = 'mwarp1d',
-	version          = '0.0.1',
+	version          = '0.0.2',
 	description      = 'Manual warping for one-dimensional data',
 	author           = 'Todd Pataky',
 	author_email     = 'spm1d.mail@gmail.com',

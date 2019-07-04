@@ -1,6 +1,6 @@
 package:
   name: mwarp1d
-  version: 0.0.1
+  version: 0.0.2
 
 
 source:
@@ -16,9 +16,9 @@ requirements:
   build:
     - python
     - setuptools
-    - numpy
-    - scipy
-    - matplotlib
+    - numpy >=1.16
+    - scipy >=1.2
+    - matplotlib >=3.0
     - nose
     - future
   run:
@@ -33,6 +33,6 @@ requirements:
 #    - mwarp1d
 
 about:
-  summary: A package for manually warping and nonlinearly registering one-dimensinal data
+  summary: A package for manually warping and nonlinearly registering one-dimensional data
   home: https://github.com/0todd0000/mwarp1d
   license: MIT
