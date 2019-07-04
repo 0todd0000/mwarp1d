@@ -311,10 +311,8 @@ class TemplateSourcePlot(QtCore.QObject):
 	def update_flagged_source_colors(self):
 		for source in self.sources:
 			flagged = source.landmarks.isflagged
-			print(flagged)
 			source.line.set_flagged(flagged)
 			source.landmarks.update_colors()
 			source.line.update_colors()
-		print()
 
 

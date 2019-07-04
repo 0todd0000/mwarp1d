@@ -239,7 +239,6 @@ class _LandmarksTable(QtWidgets.QTableView):
 		[self.setColumnWidth(i, self.column_width) for i in range(self.ncols)]
 	
 	def set_row_values(self, row, values):
-		print(row, values)
 		for i,x in enumerate(values):
 			index  = self.model.index(row, i)
 			self.model.setData(index, x)

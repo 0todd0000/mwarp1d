@@ -352,7 +352,6 @@ class LandmarksPanel(QtWidgets.QWidget):
 		
 	
 	def on_source_rowflags_changed(self):
-		print('on_source_rowflags_changed')
 		self.figure0.update_flagged_source_colors()
 
 	

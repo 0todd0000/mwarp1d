@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>273</width>
-    <height>580</height>
+    <width>190</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>580</height>
+    <height>400</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -136,8 +136,8 @@
             <widget class="DialDisplayWidget" name="widget_amp" native="true">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>135</height>
+               <width>50</width>
+               <height>50</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -156,8 +156,8 @@
             <widget class="DialDisplayWidget" name="widget_head" native="true">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>100</height>
+               <width>50</width>
+               <height>50</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -185,8 +185,8 @@
             <widget class="DialDisplayWidget" name="widget_tail" native="true">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>100</height>
+               <width>50</width>
+               <height>50</height>
               </size>
              </property>
              <property name="maximumSize">

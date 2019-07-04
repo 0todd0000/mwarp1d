@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>825</height>
+    <width>762</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1230</width>
-    <height>825</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -100,8 +100,8 @@
              <widget class="SimpleFigure" name="fig" native="true">
               <property name="minimumSize">
                <size>
-                <width>800</width>
-                <height>500</height>
+                <width>400</width>
+                <height>250</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -320,10 +320,16 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QPushButton" name="button_landmarks">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>200</width>
-            <height>100</height>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
@@ -333,10 +339,16 @@
         </item>
         <item>
          <widget class="QPushButton" name="button_manual">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>200</width>
-            <height>100</height>
+            <height>40</height>
            </size>
           </property>
           <property name="text">

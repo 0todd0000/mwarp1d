@@ -113,7 +113,6 @@ class _LandmarksTable(QtWidgets.QTableWidget):
 		
 	def toggle_flag(self, row):
 		self.rowflags[row] = not self.rowflags[row]
-		print(self.rowflags)
 
 
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>825</height>
+    <width>751</width>
+    <height>521</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,8 +53,8 @@
         <widget class="WarpControlWidget" name="warp_controls" native="true">
          <property name="minimumSize">
           <size>
-           <width>250</width>
-           <height>580</height>
+           <width>200</width>
+           <height>400</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -257,8 +257,8 @@
       <widget class="FigureManual" name="figure" native="true">
        <property name="minimumSize">
         <size>
-         <width>800</width>
-         <height>500</height>
+         <width>400</width>
+         <height>250</height>
         </size>
        </property>
        <property name="maximumSize">

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>825</height>
+    <width>973</width>
+    <height>593</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,7 +65,7 @@
          <widget class="TemplateTable" name="table0">
           <property name="minimumSize">
            <size>
-            <width>400</width>
+            <width>200</width>
             <height>50</height>
            </size>
           </property>
@@ -172,8 +172,8 @@
          <widget class="SourceTable" name="table1">
           <property name="minimumSize">
            <size>
-            <width>400</width>
-            <height>400</height>
+            <width>200</width>
+            <height>200</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -328,8 +328,8 @@
       <widget class="QGroupBox" name="box_figure0">
        <property name="minimumSize">
         <size>
-         <width>810</width>
-         <height>510</height>
+         <width>410</width>
+         <height>255</height>
         </size>
        </property>
        <property name="title">
@@ -340,8 +340,8 @@
          <widget class="FigureLandmarks" name="figure0" native="true">
           <property name="minimumSize">
            <size>
-            <width>800</width>
-            <height>500</height>
+            <width>400</width>
+            <height>250</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -381,8 +381,8 @@
          <widget class="FigureLandmarksRegistered" name="figure1" native="true">
           <property name="minimumSize">
            <size>
-            <width>500</width>
-            <height>250</height>
+            <width>240</width>
+            <height>120</height>
            </size>
           </property>
           <property name="maximumSize">
