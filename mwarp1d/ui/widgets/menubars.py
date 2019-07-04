@@ -116,7 +116,84 @@ class LandmarksScreenshotMenu(_Menu):
 
 	def on_screenshot_figure_warped(self):
 		self._grab( self.mainapp.panel_landmarks.figure1 )
+
+
+
+
+class LandmarksQuickKeyMenu(_Menu):
 	
+	title            = 'Quick keys'
+	
+	def __init__(self, mainapp):
+		super().__init__(mainapp)
+		self.panel     = mainapp.panel_landmarks
+		self._actions  = []
+		a0 = QtWidgets.QAction('S :   Sources:  toggle visible', self)
+		a1 = QtWidgets.QAction('T :   Template: toggle visible', self)
+		a2 = QtWidgets.QAction('Y :   Legend:   toggle visible', self)
+		a3 = QtWidgets.QAction('Left arrow :   previous curve', self)
+		a4 = QtWidgets.QAction('Right arrow :   next curve', self)
+		a5 = QtWidgets.QAction('A :   Add landmark', self)
+		a6 = QtWidgets.QAction('L :   Lock template', self)
+		### actions:
+		self.addAction(a0)
+		self.addAction(a1)
+		self.addAction(a2)
+		self.addSection('Selection')
+		self.addAction(a3)
+		self.addAction(a4)
+		self.addSection('Functions')
+		self.addAction(a5)
+		self.addAction(a6)
+		### callbacks:
+		a0.triggered.connect( self.on_toggle_source_visibility )
+		a1.triggered.connect( self.on_toggle_template_visibility )
+		a2.triggered.connect( self.on_toggle_legend_visibility )
+		a3.triggered.connect( self.on_select_previous )
+		a4.triggered.connect( self.on_select_next )
+		a5.triggered.connect( self.on_add_landmark )
+		a6.triggered.connect( self.on_toggle_template_lock )
+		### enabled states:
+		[a.setEnabled(False) for a in [a0,a1,a3,a4]]
+
+	def addAction(self, action):
+		super().addAction(action)
+		self._actions.append(action)
+	
+	
+	def on_add_landmark(self):
+		self.panel.on_add_landmark_keyboard()
+	
+	def on_select_next(self):
+		self.panel.on_next_curve()
+
+	def on_select_previous(self):
+		self.panel.on_previous_curve()
+
+	def on_toggle_legend_visibility(self):
+		self.panel.toggle_legend_visible()
+	
+	def on_toggle_source_visibility(self):
+		self.panel.toggle_unselected_visible()
+
+	def on_toggle_template_lock(self):
+		self.panel.toggle_template_locked()
+		
+	def on_toggle_template_visibility(self):
+		self.panel.toggle_template_visible()
+		
+		
+	def update_template_locked(self, locked):
+		self._actions[0].setEnabled(locked)
+		self._actions[1].setEnabled(locked)
+		self._actions[3].setEnabled(locked)
+		self._actions[4].setEnabled(locked)
+		self._actions[5].setEnabled(not locked)
+		if locked:
+			self._actions[6].setText('L :   Unlock template')
+		else:
+			self._actions[6].setText('L :   Lock template')
+
 
 
 
@@ -160,11 +237,101 @@ class ManualScreenshotMenu(_Menu):
 
 
 
+
+class ManualQuickKeyMenu(_Menu):
+	
+	title            = 'Quick keys'
+	
+	def __init__(self, mainapp):
+		super().__init__(mainapp)
+		self._actions  = []
+		self.panel     = mainapp.panel_manual
+		a0 = QtWidgets.QAction('S :   Sources:  toggle visible', self)
+		a1 = QtWidgets.QAction('T :   Template: toggle visible', self)
+		a2 = QtWidgets.QAction('Y :   Legend:   toggle visible', self)
+		a3 = QtWidgets.QAction('Left arrow :   previous curve', self)
+		a4 = QtWidgets.QAction('Right arrow :   next curve', self)
+		a5 = QtWidgets.QAction('W :   initialize Warp', self)
+		a6 = QtWidgets.QAction('RETURN :   apply warp', self)
+		a7 = QtWidgets.QAction('ESC :   cancel warp', self)
+		a8 = QtWidgets.QAction('O :   Original source: toggle visible', self)
+		a9 = QtWidgets.QAction('R :   Reset source', self)
+		### actions:
+		self.addAction(a0)
+		self.addAction(a1)
+		self.addAction(a2)
+		self.addSection('Arrows')
+		self.addAction(a3)
+		self.addAction(a4)
+		self.addSection('Warps')
+		self.addAction(a5)
+		self.addAction(a6)
+		self.addAction(a7)
+		self.addSection('Visibility')
+		self.addAction(a8)
+		self.addAction(a9)
+		### callbacks:
+		a0.triggered.connect( self.panel.on_key_s )
+		a1.triggered.connect( self.panel.on_key_t )
+		a2.triggered.connect( self.panel.on_key_y )
+		a3.triggered.connect( self.panel.on_previous_curve )
+		a4.triggered.connect( self.panel.on_next_curve )
+		a5.triggered.connect( self.panel.on_key_w )
+		a6.triggered.connect( self.panel.on_key_return )
+		a7.triggered.connect( self.panel.on_key_escape )
+		a8.triggered.connect( self.panel.on_key_o )
+		a9.triggered.connect( self.panel.on_key_r )
+		### enable:
+		for a in [a5,a6,a7,a8,a9]:
+			a.setEnabled(False)
+
+
+	def _enable_arrows(self, enable):
+		self._actions[3].setEnabled( enable )
+		self._actions[4].setEnabled( enable )
+
+	def _enable_warp_controls(self, enable):
+		self._actions[6].setEnabled( enable )
+		self._actions[7].setEnabled( enable )
+		
+	
+	def addAction(self, action):
+		super().addAction(action)
+		self._actions.append(action)
+	
+	
+	def update_manual_curve_selected(self, ind):
+		enable = ind!=0
+		self._actions[5].setEnabled( enable )
+		self._actions[8].setEnabled( enable )
+		self._actions[9].setEnabled( enable )
+
+	def update_warp_applied(self):
+		self._enable_arrows(True)
+		self._enable_warp_controls(False)
+	def update_warp_cancelled(self):
+		self._enable_arrows(True)
+		self._enable_warp_controls(False)
+	def update_warp_initiated(self):
+		self._enable_arrows(False)
+		self._enable_warp_controls(True)
+
+
+
 class MenuBar(QtWidgets.QMenuBar):
 	def __init__(self, parent):
 		super().__init__(parent)
 		self.mainapp    = parent
+		self.menus      = []
 
+	def addMenu(self, menu):
+		super().addMenu(menu)
+		self.menus.append(menu)
+	
+	def clear(self):
+		super().clear()
+		self.menus      = []
+	
 	def on_quit(self):
 		print('mwarp1d:  Bye!')
 		QtWidgets.qApp.quit()
@@ -177,10 +344,26 @@ class MenuBar(QtWidgets.QMenuBar):
 		self.clear()
 		self.addMenu( LandmarksExportMenu(self.mainapp) )
 		self.addMenu( LandmarksScreenshotMenu(self.mainapp) )
+		self.addMenu( LandmarksQuickKeyMenu(self.mainapp) )
 		
 	def set_manual_panel_menu(self):
 		self.clear()
 		self.addMenu( ManualExportMenu(self.mainapp) )
 		self.addMenu( ManualScreenshotMenu(self.mainapp) )
+		self.addMenu( ManualQuickKeyMenu(self.mainapp) )
+		
+		
+		
+	def update_template_locked(self, locked):
+		self.menus[2].update_template_locked(locked)
 
+	def update_manual_curve_selected(self, ind):
+		self.menus[2].update_manual_curve_selected(ind)
+	
+	def update_warp_applied(self):
+		self.menus[2].update_warp_applied()
+	def update_warp_cancelled(self):
+		self.menus[2].update_warp_cancelled()
+	def update_warp_initiated(self):
+		self.menus[2].update_warp_initiated()
 

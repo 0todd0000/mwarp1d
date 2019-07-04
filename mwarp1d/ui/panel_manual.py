@@ -11,6 +11,13 @@ import mwarp1d
 
 
 class ManualPanel(QtWidgets.QWidget):
+	
+	curve_selected      = QtCore.pyqtSignal(int)
+	warp_initiated      = QtCore.pyqtSignal()
+	warp_applied        = QtCore.pyqtSignal()
+	warp_cancelled      = QtCore.pyqtSignal()
+	
+	
 	def __init__(self, parent=None):
 		super().__init__(parent=parent)
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'panel_manual.ui' )
@@ -53,7 +60,7 @@ class ManualPanel(QtWidgets.QWidget):
 		shortcut_S.activated.connect( self.on_key_s )
 		shortcut_T.activated.connect( self.on_key_t )
 		shortcut_W.activated.connect( self.on_key_w )
-		shortcut_Y.activated.connect( self.toggle_legend_visible )
+		shortcut_Y.activated.connect( self.on_key_y )
 
 	
 
@@ -110,6 +117,7 @@ class ManualPanel(QtWidgets.QWidget):
 	def _initiate_warp(self, caller='key_w'):
 		if not self.figure.tsplot.iswarpactive:
 			if self.figure.tsplot.active_object != self.figure.tsplot.template:
+				self.warp_initiated.emit()
 				if caller == 'key_w':
 					self.figure.tsplot.initiate_warp_key_w()
 					
@@ -121,6 +129,7 @@ class ManualPanel(QtWidgets.QWidget):
 				self.enable_curve_selection(False)
 				self.warp_controls.set_warp_enabled(True)
 				self.figure.update_idle()
+				
 		
 
 
@@ -154,9 +163,12 @@ class ManualPanel(QtWidgets.QWidget):
 			self.figure.update_idle()
 			self.enable_curve_selection()
 			self.warp_controls.set_warp_enabled(False)
+			self.warp_cancelled.emit()
 		
 
 	def on_key_return(self):
+		if self.figure.tsplot.iswarpactive:
+			self.warp_applied.emit()
 		self.figure.tsplot.apply_warp()
 		self.figure.update_idle()
 		self.enable_curve_selection()
@@ -191,6 +203,8 @@ class ManualPanel(QtWidgets.QWidget):
 	def on_key_w(self):
 		self._initiate_warp(caller='key_w')
 		
+	def on_key_y(self):
+		self.toggle_legend_visible()
 
 
 	def on_next_curve(self):
@@ -209,6 +223,7 @@ class ManualPanel(QtWidgets.QWidget):
 	def on_signal_curve_activated(self, ind):
 		self.spin_current_curve.setValue( ind )
 		self.warp_controls.button_initiate.setEnabled(ind!=0)
+		self.curve_selected.emit(ind)
 	
 	def on_spin_current_curve(self, ind):
 		if ind==0:

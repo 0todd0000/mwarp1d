@@ -13,6 +13,10 @@ import mwarp1d
 
 
 class LandmarksPanel(QtWidgets.QWidget):
+	
+	template_locked      = QtCore.pyqtSignal(bool)
+	
+	
 	def __init__(self, parent=None):
 		super().__init__(parent=parent)
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'panel_landmarks.ui' )
@@ -193,11 +197,11 @@ class LandmarksPanel(QtWidgets.QWidget):
 		return self.table0.get_landmark_names()
 	
 
-	def toggle_lock_template(self):
-		button = self.button_lock_template
-		locked = button.isChecked() 
-		button.setChecked( not locked )
-		self.on_button_lock_template( not locked )
+	# def toggle_lock_template(self):
+	# 	button = self.button_lock_template
+	# 	locked = button.isChecked()
+	# 	button.setChecked( not locked )
+	# 	self.on_button_lock_template( not locked )
 	
 	
 	
@@ -433,7 +437,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		self.is_template_locked = not self.is_template_locked
 		self.button_lock_template.setChecked( self.is_template_locked )
 		self.on_button_lock_template( self.is_template_locked )
-		
+		self.template_locked.emit( self.is_template_locked )
 	
 	def toggle_template_visible(self):
 		if self.is_template_locked:
@@ -444,9 +448,10 @@ class LandmarksPanel(QtWidgets.QWidget):
 			self.figure1.ax.figure.canvas.draw()
 	
 	def toggle_unselected_visible(self):
-		self.figure0.toggle_unselected_visible()
-		self.is_unselected_visible = not self.is_unselected_visible
-		self.update_warped_plot_source_visibility()
+		if self.is_template_locked:
+			self.figure0.toggle_unselected_visible()
+			self.is_unselected_visible = not self.is_unselected_visible
+			self.update_warped_plot_source_visibility()
 	
 	def update_counts(self):
 		self.label_nsources.setText( str(self.table1.nrow) )

@@ -49,6 +49,16 @@ class MainWindow(QtWidgets.QMainWindow):
 		self._parse_commandline_inputs(argv)
 		
 		
+		self.panel_landmarks.template_locked.connect( self.on_template_locked )
+		self.panel_manual.curve_selected.connect( self.on_manual_curve_selected )
+		self.panel_manual.warp_applied.connect( self.on_warp_applied )
+		self.panel_manual.warp_cancelled.connect( self.on_warp_cancelled )
+		self.panel_manual.warp_initiated.connect( self.on_warp_initiated )
+		
+		
+		
+		
+		
 		
 		
 	
@@ -102,6 +112,21 @@ class MainWindow(QtWidgets.QMainWindow):
 			fname1 = os.path.join(dir0, 'mwarp1d.npz')
 		return fname1
 		
+	
+	def on_template_locked(self, locked):
+		self.menuBar().update_template_locked(locked)
+	
+	def on_manual_curve_selected(self, ind):
+		self.menuBar().update_manual_curve_selected(ind)
+	
+	def on_warp_applied(self):
+		self.menuBar().update_warp_applied()
+	def on_warp_cancelled(self):
+		self.menuBar().update_warp_cancelled()
+	def on_warp_initiated(self):
+		self.menuBar().update_warp_initiated()
+	
+	
 	
 	def set_default_directory(self, dir0=None):
 		self.dir0  = dir0

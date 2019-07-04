@@ -64,6 +64,7 @@ class TemplateSourcePlot(QtCore.QObject):
 
 	def add_landmark(self):
 		x = self.crosshairs.get_xpos()
+		x = floor(self.Q/2) if x is None else x
 		if x is not None:
 			if self.selected_object == self.template and self.template.isvisible:
 				ind   = floor(x)
