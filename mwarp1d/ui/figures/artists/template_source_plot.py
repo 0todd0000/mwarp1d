@@ -62,6 +62,15 @@ class TemplateSourcePlot(QtCore.QObject):
 		return None if (self.sources is None) else len(self.sources)
 
 
+	def add_landmark(self):
+		x = self.crosshairs.get_xpos()
+		if x is not None:
+			if self.selected_object == self.template and self.template.isvisible:
+				ind   = floor(x)
+				if (ind > -1) and (ind < self.Q-1):
+					self.template.add_landmark(ind)
+	
+	
 	def get_active_source(self):
 		sources = [s for s in self.sources if s.line.isactive]
 		return sources[0] if len(sources)>0 else None

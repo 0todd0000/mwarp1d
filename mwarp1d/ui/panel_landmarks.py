@@ -57,7 +57,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		
 		shortcut_left.activated.connect( self.on_left_arrow )
 		shortcut_right.activated.connect( self.on_right_arrow )
-		shortcut_A.activated.connect( self.on_select_all_source_rows )
+		shortcut_A.activated.connect( self.on_add_landmark_keyboard )
 		shortcut_L.activated.connect( self.toggle_template_locked )
 		shortcut_S.activated.connect( self.toggle_unselected_visible )
 		shortcut_T.activated.connect( self.toggle_template_visible )
@@ -201,6 +201,10 @@ class LandmarksPanel(QtWidgets.QWidget):
 	
 	
 	
+	def on_add_landmark_keyboard(self):
+		self.figure0.tsplot.add_landmark()
+	
+	
 	def on_button_lock_template(self, locked, overwrite_source_landmarks=True):
 		self.is_template_locked = locked
 		if locked:
@@ -328,9 +332,6 @@ class LandmarksPanel(QtWidgets.QWidget):
 	def on_right_arrow(self):
 		self.on_next_curve()
 	
-	
-	def on_select_all_source_rows(self):
-		self.table1.selectAll()
 	
 	
 	def on_source_point_dragged(self, row, ind, x, y):

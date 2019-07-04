@@ -8,10 +8,14 @@ class Crosshairs(object):
 		self.vl    = ax.axvline(0, color='0.7', ls=':')
 		self.vl.set_visible(visible)
 	
+	def get_xpos(self):
+		x          = self.vl.get_xdata()[0]
+		x          = x if self.vl.get_visible() else None
+		return x
+
 	def set_visible(self, visible=True):
 		self.vl.set_visible(visible)
-		
-	
+
 	def set_xdata(self, x):
 		self.vl.set_xdata([x,x])
 
