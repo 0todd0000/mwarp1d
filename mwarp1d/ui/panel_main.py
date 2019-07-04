@@ -32,8 +32,10 @@ class MainPanel(QtWidgets.QWidget):
 	def _plot(self):
 		y0 = self.template_array
 		y  = self.sources_array
-		self.fig.ax.plot( y0,  lw=5, color='k')
-		self.fig.ax.plot( y.T, lw=1, color='0.8')
+		ax = self.fig.ax
+		h0 = ax.plot( y0,  lw=5, color='k')[0]
+		h1 = ax.plot( y.T, lw=1, color='0.8')[0]
+		ax.legend([h0,h1], ['Template','Source'])
 		
 		
 		

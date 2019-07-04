@@ -73,7 +73,10 @@ class TemplateSourcePlot(QtCore.QObject):
 				return i,s
 
 
-			
+	def init_legend(self):
+		h0,h1      = self.template.h, self.sources[0].h
+		self.leg   = self.ax.legend([h0,h1], ['Template', 'Source'], loc='upper left')
+
 		
 	def on_empty_click(self, x, y):
 		self.empty_click.emit(x, y)
@@ -164,9 +167,8 @@ class TemplateSourcePlot(QtCore.QObject):
 		self.template.set_active(active)
 		[s.set_active(active) for s in self.sources]
 
-
-
 	
+
 	def set_next_selected(self):
 		if self.selected_object == self.template:
 			self.set_source_active(0)
@@ -281,6 +283,11 @@ class TemplateSourcePlot(QtCore.QObject):
 		
 	
 	
+	def toggle_legend_visible(self):
+		self.leg.set_visible( not self.leg.get_visible() )
+		self.ax.figure.canvas.draw()
+
+
 	def toggle_unselected_visible(self):
 		self.is_unselected_visible = not self.is_unselected_visible
 		self.set_unselected_visible( self.is_unselected_visible )

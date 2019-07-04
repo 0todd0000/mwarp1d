@@ -53,6 +53,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		shortcut_L     = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_L ), self )
 		shortcut_S     = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_S ), self )
 		shortcut_T     = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_T ), self )
+		shortcut_Y     = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_Y ), self )
 		
 		shortcut_left.activated.connect( self.on_left_arrow )
 		shortcut_right.activated.connect( self.on_right_arrow )
@@ -60,6 +61,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		shortcut_L.activated.connect( self.toggle_template_locked )
 		shortcut_S.activated.connect( self.toggle_unselected_visible )
 		shortcut_T.activated.connect( self.toggle_template_visible )
+		shortcut_Y.activated.connect( self.toggle_legend_visible )
 		
 		
 
@@ -421,6 +423,10 @@ class LandmarksPanel(QtWidgets.QWidget):
 	def set_template_visible(self, visible):
 		self.figure0.set_template_visible(visible)
 	
+	
+	
+	def toggle_legend_visible(self):
+		self.figure0.tsplot.toggle_legend_visible()
 	
 	def toggle_template_locked(self):
 		self.is_template_locked = not self.is_template_locked

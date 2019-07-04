@@ -42,6 +42,7 @@ class ManualPanel(QtWidgets.QWidget):
 		shortcut_S      = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_S ), self )
 		shortcut_T      = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_T ), self )
 		shortcut_W      = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_W ), self )
+		shortcut_Y      = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_Y ), self )
 		
 		shortcut_left.activated.connect( self.on_previous_curve )
 		shortcut_right.activated.connect( self.on_next_curve )
@@ -52,6 +53,7 @@ class ManualPanel(QtWidgets.QWidget):
 		shortcut_S.activated.connect( self.on_key_s )
 		shortcut_T.activated.connect( self.on_key_t )
 		shortcut_W.activated.connect( self.on_key_w )
+		shortcut_Y.activated.connect( self.toggle_legend_visible )
 
 	
 
@@ -233,6 +235,8 @@ class ManualPanel(QtWidgets.QWidget):
 		else:
 			self._initiate_using_data(data)
 
+	def toggle_legend_visible(self):
+		self.figure.tsplot.toggle_legend_visible()
 
 
 

@@ -93,10 +93,12 @@ class TemplateSourcePlotManual(QtCore.QObject):
 		
 
 	
+	def init_legend(self):
+		h0,h1      = self.template.h, self.sources[0].h
+		self.leg   = self.ax.legend([h0,h1], ['Template', 'Source'], loc='upper left')
+	
 	
 	def initiate_warp_button_inititate(self, params):
-		print('initiate_warp_button_inititate', params)
-		
 		x     = 0.01 * params['position']
 		x0,x1 = self.ax.get_xlim()
 		self.warp.set_center( x )
@@ -303,9 +305,11 @@ class TemplateSourcePlotManual(QtCore.QObject):
 		self.active_object.toggle_original_source_visibility()
 	
 	
+	def toggle_legend_visible(self):
+		self.leg.set_visible( not self.leg.get_visible() )
+		self.ax.figure.canvas.draw()
 	
 	def toggle_template_visible(self):
-		print('toggle_template_visible')
 		self.template.h.set_visible( not self.template.h.get_visible() )
 	
 	def toggle_unselected_visible(self):

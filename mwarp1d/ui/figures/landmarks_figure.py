@@ -104,6 +104,7 @@ class FigureLandmarks(_Figure):
 		self.tsplot       = TemplateSourcePlot(self.ax, self.Q)
 		self.tsplot.set_template( ytemplate, lmtemplate )
 		self.tsplot.set_sources( ysources, lmsources )
+		self.tsplot.init_legend()
 
 		self.tsplot.point_deleted.connect(self.on_point_deleted)
 		

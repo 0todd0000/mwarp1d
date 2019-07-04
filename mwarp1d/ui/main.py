@@ -65,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
 				fnameNPZ    = os.path.join( os.getcwd(), '_mwarp1d.npz' )
 			else:
 				fnameNPZ    = os.path.join( os.path.dirname(fnameCSV), '_mwarp1d.npz' )
-			print('mwarp1d:  session data saved to %s. To save in a different location, specify the desired output file name.' %fnameNPZ)
+			print('\n\n\nWelcome to mwarp1d!\n\nSession data will be saved to %s.\n\nTo save to a different location, change the "Results file" option.\n\n\n' %fnameNPZ)
 
 
 		if mode is not None:

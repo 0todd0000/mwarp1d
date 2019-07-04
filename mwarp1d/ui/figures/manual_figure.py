@@ -49,6 +49,7 @@ class FigureManual(_Figure):
 		self.tsplot       = TemplateSourcePlotManual(self.ax, self.Q)
 		self.tsplot.set_template( ytemplate )
 		self.tsplot.set_sources( sources )
+		self.tsplot.init_legend()
 		self.tsplot.template.set_active(True)
 
 	def update_idle(self):
