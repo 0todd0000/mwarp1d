@@ -89,7 +89,6 @@ class FigureLandmarks(_Figure):
 		self.J              = None
 		self.Q              = None
 		self.tsplot         = None
-
 	
 	
 	def _init(self, template, sources, lmtemplate=None, lmsources=None):
@@ -147,15 +146,16 @@ class FigureLandmarks(_Figure):
 	def select_source(self, ind):
 		self.tsplot.set_source_active(ind)
 	def select_source_by_table_header_click(self, ind):
+		self.tsplot.toggle_unselected_visible()
 		self.tsplot.set_source_active(ind)
+		self.tsplot.toggle_unselected_visible()
+		
 	
 	def set_source_landmarks_visible(self, visible):
 		[source.landmarks.set_visible(visible) for source in self.tsplot.sources]
 
 	def set_sources_visible(self, visible):
 		[source.set_visible(visible) for source in self.tsplot.sources]
-
-	
 	
 	
 	def set_template_locked(self, locked):
