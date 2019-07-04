@@ -64,6 +64,7 @@ class MainPanel(QtWidgets.QWidget):
 		if nfiles==1:
 			fname = filenames[0]
 			ext   = os.path.splitext(fname)[1]
+			self.mainapp.set_default_directory(  os.path.dirname(fname)  )
 			if ext=='.csv':
 				fname1 = self.mainapp.get_results_filename(fname)
 				y      = np.loadtxt(fname, delimiter=',')

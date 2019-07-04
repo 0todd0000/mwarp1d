@@ -14,20 +14,20 @@ class _Menu(QtWidgets.QMenu):
 		self.setTitle( self.title )
 
 	def _grab(self, obj):
-		dialog = FileSaveDialog('jpg')
+		dialog = FileSaveDialog('jpg', self.mainapp.dir0)
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:
 			fname = dialog.selectedFiles()[0]
 			p     = obj.grab()
 			p.save(fname, 'jpg')
 
 	def on_export_csv_warped(self):
-		dialog = FileSaveDialog('csv')
+		dialog = FileSaveDialog('csv', self.mainapp.dir0)
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:
 			fname  = dialog.selectedFiles()[0]
 			self.panel.data.write_sources_warped_csv(fname)
 
 	def on_export_mat(self):
-		dialog = FileSaveDialog('mat')
+		dialog = FileSaveDialog('mat', self.mainapp.dir0)
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:
 			fname = dialog.selectedFiles()[0]
 			self.panel.data.write_mat(fname)
@@ -82,7 +82,7 @@ class LandmarksExportMenu(_Menu):
 		export2.triggered.connect( self.on_export_mat )
 		
 	def on_export_csv_landmarks(self):
-		dialog = FileSaveDialog('csv')
+		dialog = FileSaveDialog('csv', self.mainapp.dir0)
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:
 			fname  = dialog.selectedFiles()[0]
 			self.mainapp.panel_landmarks.data.write_landmarks_csv(fname)

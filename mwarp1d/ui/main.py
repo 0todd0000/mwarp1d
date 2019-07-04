@@ -14,7 +14,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		super().__init__()
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'main.ui' )
 		uic.loadUi(fnameUI, self)
-		
+		self.dir0            = None
 		
 		# self.centralWidget = QtWidgets.QWidget(self)
 		# self.setCentralWidget(self.centralWidget)
@@ -98,10 +98,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def get_results_filename(self, fname0, fname1=None):
 		if fname1 is None:
-			dir0 = os.path.dirname(fname0)
+			dir0   = os.path.dirname(fname0)
 			fname1 = os.path.join(dir0, 'mwarp1d.npz')
 		return fname1
 		
+	
+	def set_default_directory(self, dir0=None):
+		self.dir0  = dir0
 	
 	def start_landmark_mode(self, template, sources, fname0, fname1=None):
 		fname1 = self.get_results_filename(fname0, fname1)
