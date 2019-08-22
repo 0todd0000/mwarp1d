@@ -10,6 +10,9 @@ from scipy import interpolate,stats
 
 
 def gaussian_half_kernel(r, amp, n, reverse=False):
+	'''
+	Docstring for gaussian_half_kernel da yo
+	'''
 	nk           = floor(2.973 * r)   #kernel width
 	s0           = 3.5 * n/nk
 	g            = stats.norm.pdf( np.linspace(-s0, 0, n) )
