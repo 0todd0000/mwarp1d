@@ -13,14 +13,14 @@ def gaussian_half_kernel(r, amp, n, reverse=False):
 	Create left half of a Gaussian kernel.
 
 	:Args:
-		r --- kernel width (relative to n)
+		**r** --- kernel width (relative to n)
 		
-		amp --- kernel height
+		**amp** --- kernel height
 		
-		n --- number of nodes used to represent the kernel
+		**n** --- number of nodes used to represent the kernel
 
 	:Keyword args:
-		reverse --- set to True to return kernel's right half (default False)
+		**reverse** --- set to True to return kernel's right half (default False)
 
 	:Returns:
 		n-element NumPy array containing Gaussian half kernel
@@ -47,9 +47,15 @@ def gaussian_half_kernel(r, amp, n, reverse=False):
 
 
 
-class ManualWarp1DAbsolute(object):
+class _ManualWarp1DAbsolute(object):
 	
 	def __init__(self, Q):
+		'''
+		Initialize warp.
+
+		:Args:
+			**Q** --- domain size (integer)
+		'''
 		self._alim  = None         #amp limits
 		self._hlim  = None         #head limits
 		self._qlim  = None         #center limits
@@ -137,12 +143,27 @@ class ManualWarp1DAbsolute(object):
 
 	
 	def apply_warp(self, y):
+		'''
+		Apply warp to an arbitrary 1D observation.
+		
+		:Args:
+			**y** --- a 1D NumPy array (must be same size as warp)
+		
+		:Returns:
+			Warped y (1D NumPy array)
+		'''
 		x0    = self.get_original_domain()
 		xw    = self.get_warped_domain()
 		f     = interpolate.interp1d(xw, y, 'linear', bounds_error=False, fill_value=0)
 		return f(x0)
 	
 	def get_displacement_field(self):
+		'''
+		Get displacement field corresponding to the current warp parameters.
+		
+		:Returns:
+			Displacement field (1D NumPy array)
+		'''
 		q0    = self.center
 		r0    = self.head
 		r1    = self.tail
@@ -159,19 +180,27 @@ class ManualWarp1DAbsolute(object):
 		return self._qlim
 	def get_headlim(self):
 		return self._hlim
-	
-		
-
 	def get_original_domain(self):
 		return self.q0
-
 	def get_taillim(self):
 		return self._tlim
 
 	def get_warped_domain(self):
+		'''
+		Get warped domain corresponding to the current warp parameters.
+		
+		:Returns:
+			Warped domain (1D NumPy array)
+		'''
 		return self.q0 + self.get_displacement_field()
 	
 	def reset(self):
+		'''
+		Reset warp to the null warping field.
+		
+		:Affects:
+			All warp parameters: "amp", "center", "head", "tail"
+		'''
 		self._init_param()
 
 	def set_amp(self, x, coerce=True):
@@ -226,7 +255,24 @@ class ManualWarp1DAbsolute(object):
 
 
 
-class ManualWarp1D(ManualWarp1DAbsolute):
+class ManualWarp1D(_ManualWarp1DAbsolute):
+	'''
+	A class for constructing constrained nonlinear 1D warps and applying them to univariate and multivariate 1D data.
+	
+	:Attributes:
+	
+		**Q** --- domain size (integer)
+		
+		**q0** --- original domain positions (1D NumpyArray)
+	
+		**amp** --- warp amplitude (absolute units, DO NOT MODIFY)
+	
+		**center** --- warp center (absolute units, DO NOT MODIFY)
+
+		**head** --- warp head (absolute units, DO NOT MODIFY)
+	
+		**tail** --- warp tail (absolute units, DO NOT MODIFY)
+	'''
 	
 	def __repr__(self):
 		s           = 'ManualWarp1D  (Domain size: %d)\n' %self.Q
@@ -262,15 +308,27 @@ class ManualWarp1D(ManualWarp1DAbsolute):
 
 	@property
 	def amp_r(self):
+		'''
+		Warp amplitude (relative to its maximum possible size)
+		'''
 		return self._get_relative_amp()
 	@property
 	def center_r(self):
+		'''
+		Warp center (relative to its maximum possible size)
+		'''
 		return self._get_relative_center()
 	@property
 	def head_r(self):
+		'''
+		Warp head (relative to its maximum possible size)
+		'''
 		return self._get_relative_head()
 	@property
 	def tail_r(self):
+		'''
+		Warp tail (relative to its maximum possible size)
+		'''
 		return self._get_relative_tail()
 
 	
@@ -319,6 +377,18 @@ class ManualWarp1D(ManualWarp1DAbsolute):
 
 	### override parent's absolute methods:
 	def set_amp(self, x, coerce=True):
+		'''
+		Set relative warp amplitude.
+		
+		:Args:
+			**x** --- relative amplitude (float, -1 to +1)
+		
+		:Keyword args:
+			**coerce** --- coerce child properties (default: True)
+
+		:Affects:
+			Child properties "head" and "tail"
+		'''
 		self._assert_lim(x, (-1, 1))
 		if coerce:
 			hr       = copy(self.head_r)
@@ -333,6 +403,15 @@ class ManualWarp1D(ManualWarp1DAbsolute):
 			
 
 	def set_center(self, x):
+		'''
+		Set relative warp center.
+		
+		:Args:
+			**x** --- relative center (float, 0 to 1, where 0 and 1 represent the first and last continuum points)
+		
+		:Affects:
+			Child properties "amp", "head" and "tail"
+		'''
 		self._assert_lim(x, (0, 1))
 		ar       = copy(self.amp_r)
 		hr       = copy(self.head_r)
@@ -344,11 +423,29 @@ class ManualWarp1D(ManualWarp1DAbsolute):
 		self.set_tail( tr )
 
 	def set_head(self, x):
+		'''
+		Set relative warp head (i.e., warp kernel's leading edge)
+		
+		:Args:
+			**x** --- relative head (float, 0 to 1)
+		
+		:Affects:
+			(No child properties)
+		'''
 		self._assert_lim(x, (0, 1))
 		x     = self._get_absolute_head( x )
 		super().set_head(x)
 
 	def set_tail(self, x):
+		'''
+		Set relative warp tail (i.e., warp kernel's trailing edge)
+		
+		:Args:
+			**x** --- relative tail (float, 0 to 1)
+		
+		:Affects:
+			(No child properties)
+		'''
 		self._assert_lim(x, (0, 1))
 		x     = self._get_absolute_tail( x )
 		super().set_tail(x)
@@ -362,12 +459,12 @@ def interp1d(y, n=101, dtype=None, kind='linear', axis=-1, copy=True, bounds_err
 	Interpolate to a fixed number of points
 
 	:Args:
-		y --- original vector (1D NumPy array)
+		**y** --- original vector (1D NumPy array)
 		
 	:Keyword args:
-		n --- number of nodes in the interpolated vector (integer)
+		**n** --- number of nodes in the interpolated vector (integer)
 	
-		other arguments --- see documentation for **scipy.interpolate.interp1d**
+		**other arguments** --- see documentation for **scipy.interpolate.interp1d**
 
 		
 
@@ -420,6 +517,25 @@ def warp1d_landmarks(y, x0=[0,50,101], x1=[0,50,101], **kwdargs):
 
 
 def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
+	'''
+	Command-line access to GUI launching.
+	
+	This function allows the user to bypass the initial GUI screen and proceed
+	directly to the specified warping interface, thereby avoiding manual GUI setup.
+	
+	This function can be called from both Python and interactive Python. The GUI will
+	be launched as a subprocess of the active Python kernel.
+	
+	:Keyword args:
+		
+		**data** --- a 2D NumPy array (rows = observations, columns = domain nodes)
+		
+		**mode** --- "landmarks" or "manual"
+		
+		**filename_results** --- file name (zipped NumPy format, with extension "npz") into which warping results will be saved
+
+		**filename_data** --- CSV file name, formatted as "data" above (data or filename_data can be specified, but not both)
+	'''
 	import os
 	narg        = 0
 	

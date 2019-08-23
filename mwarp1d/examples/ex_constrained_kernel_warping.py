@@ -4,7 +4,7 @@ from matplotlib import pyplot
 import mwarp1d
 
 
-#define landmarks and apply warp:
+#define warp:
 Q    = 101  #domain size
 warp = mwarp1d.ManualWarp1D(Q)  #constrained Gaussian kernel warp object
 warp.set_center(0.25)
