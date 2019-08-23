@@ -1,5 +1,4 @@
 
-__version__ = '0.0.1'   #(2019.06.07)
 
 from copy import copy
 from math import floor,ceil
@@ -11,13 +10,37 @@ from scipy import interpolate,stats
 
 def gaussian_half_kernel(r, amp, n, reverse=False):
 	'''
-	Docstring for gaussian_half_kernel da yo
+	Create left half of a Gaussian kernel.
+
+	:Args:
+		r --- kernel width (relative to n)
+		
+		amp --- kernel height
+		
+		n --- number of nodes used to represent the kernel
+
+	:Keyword args:
+		reverse --- set to True to return kernel's right half (default False)
+
+	:Returns:
+		n-element NumPy array containing Gaussian half kernel
+	
+	:Example:
+		
+		>>> from matplotlib import pyplot as plt
+		>>> import mwarp1d
+		>>> 
+		>>> k = mwarp1d.gaussian_half_kernel(10, 3, 51, reverse=True)
+		>>> 
+		>>> plt.figure()
+		>>> plt.plot(k)
+		>>> plt.show()
 	'''
-	nk           = floor(2.973 * r)   #kernel width
-	s0           = 3.5 * n/nk
-	g            = stats.norm.pdf( np.linspace(-s0, 0, n) )
-	g            = (g - g[0]) / (g[-1] - g[0])
-	g           *= amp / g[-1]
+	nk = floor(2.973 * r)   #kernel width
+	s0 = 3.5 * n/nk
+	g  = stats.norm.pdf( np.linspace(-s0, 0, n) )
+	g  = (g - g[0]) / (g[-1] - g[0])
+	g *= amp / g[-1]
 	if reverse:
 		g = g[::-1]
 	return g
@@ -335,6 +358,36 @@ class ManualWarp1D(ManualWarp1DAbsolute):
 
 
 def interp1d(y, n=101, dtype=None, kind='linear', axis=-1, copy=True, bounds_error=True, fill_value=np.nan):
+	'''
+	Interpolate to a fixed number of points
+
+	:Args:
+		y --- original vector (1D NumPy array)
+		
+	:Keyword args:
+		n --- number of nodes in the interpolated vector (integer)
+	
+		other arguments --- see documentation for **scipy.interpolate.interp1d**
+
+		
+
+	:Returns:
+		n-element NumPy array containing Gaussian half kernel
+	
+	:Example:
+		
+		>>> from matplotlib import pyplot as plt
+		>>> import mwarp1d
+		>>> 
+		>>> k = mwarp1d.gaussian_half_kernel(10, 3, 51, reverse=True)
+		>>> ki = mwarp1d.interp1d(k, 200)
+		>>> 
+		>>> plt.figure()
+		>>> plt.plot(k, label='Original')
+		>>> plt.plot(ki, label='Interpolated')
+		>>> plt.legend()
+		>>> plt.show()
+	'''
 	t0   = np.arange( y.shape[0] )
 	t1   = np.linspace(0, y.shape[0]-1, n)
 	f    = interpolate.interp1d(t0, y, kind, axis, copy, bounds_error, fill_value)
