@@ -73,6 +73,7 @@ class _MWarp1DData(object):
 		self.fname0      = s
 		if read:
 			self._parse_input_file(s)
+			# self._init_other_attributes()
 		
 		if self.fname1 is None:
 			dir1         = os.path.dirname(s)
@@ -85,6 +86,7 @@ class _MWarp1DData(object):
 	
 	def set_sources(self, y, init_warped=False):
 		self.ydata_sources = y
+		self._init_other_attributes()
 		if init_warped:
 			self.set_sources_warped( y.copy() )
 	
@@ -146,15 +148,15 @@ class DataLandmarks(_MWarp1DData):
 class DataManual(_MWarp1DData):
 
 	mode                 = 'manual'
-	# displacement_fields  = None       #final warp fields
+	seqwarps             = None
 
-	# def _init_other_attributes(self):
-	# 	J,Q              = self.ydata_sources.shape
-	# 	self.displacement_fields = np.zeros((J,Q))
+	def _init_other_attributes(self):
+		J,Q              = self.ydata_sources.shape
+		self.seqwarps    = np.empty(J, dtype=object)
 
-	# def get_dictionary(self):
-	# 	d     = super().get_dictionary()
-	# 	d['displacement_fields']  = self.displacement_fields
-	# 	return d
+	def get_dictionary(self):
+		d              = super().get_dictionary()
+		d['seqwarps']  = self.seqwarps
+		return d
 
 

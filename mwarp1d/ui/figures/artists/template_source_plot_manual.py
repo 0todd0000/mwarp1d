@@ -61,6 +61,8 @@ class TemplateSourcePlotManual(QtCore.QObject):
 		self.vref.set_visible(False)
 		self.warp.reset()
 		
+		
+		
 
 	def cancel_warp(self):
 		self.iswarpactive        = False

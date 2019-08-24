@@ -178,6 +178,7 @@ class ManualPanel(QtWidgets.QWidget):
 		ind    = self.spin_current_curve.value() - 1
 		source = self.figure.tsplot.active_object
 		self.data.ydata_sources_warped[ind] = source.yw
+		self.data.seqwarps[ind] = source.seqw.asarray()
 		self.data.save()
 		
 		
@@ -191,6 +192,11 @@ class ManualPanel(QtWidgets.QWidget):
 		if self.figure.tsplot.active_object != self.figure.tsplot.template:
 			self.figure.tsplot.reset_warp()
 			self.figure.update_idle()
+			
+			ind    = self.spin_current_curve.value() - 1
+			self.data.seqwarps[ind] = None
+			self.data.save()
+
 
 	def on_key_s(self):
 		self.figure.tsplot.toggle_unselected_visible()

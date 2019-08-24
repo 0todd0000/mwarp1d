@@ -1,6 +1,6 @@
 
 
-from copy import copy
+from copy import copy,deepcopy
 from math import floor,ceil
 import numpy as np
 from scipy import interpolate,stats
@@ -164,6 +164,11 @@ class _ManualWarp1DAbsolute(object):
 		xw    = self.get_warped_domain()
 		f     = interpolate.interp1d(xw, y, 'linear', bounds_error=False, fill_value=0)
 		return f(x0)
+	
+	
+	def copy(self):
+		return deepcopy(self)
+	
 	
 	def get_displacement_field(self):
 		'''
@@ -383,6 +388,11 @@ class ManualWarp1D(_ManualWarp1DAbsolute):
 		return self._relative_value(x, self.tail, self._tlim)
 
 
+
+	def get_params(self):
+		return self.amp_r, self.center_r, self.head_r, self.tail_r
+
+
 	### override parent's absolute methods:
 	def set_amp(self, x, coerce=True):
 		'''
@@ -493,7 +503,7 @@ class SequentialManualWarp(object):
 		return len(self.warps)
 	
 	def asarray(self):
-		pass
+		return np.array([w.get_params() for w in self.warps])
 
 	def append(self, warp):
 		'''
@@ -773,6 +783,81 @@ def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
 		os.system(command)
 
 
+
+
+class MWarpResults(object):
+	def __init__(self, fnameNPZ):
+		self.J        = None
+		self.Q        = None
+		self.fnameNPZ = fnameNPZ
+		self.mode     = None
+		self.fname0   = None
+		self.fname1   = None
+		self.y        = None   #sources (original)
+		self.yw       = None   #sources (warped)
+		self.y0       = None   #template
+		self._parse()
+		
+	def __repr__(self):
+		s   = 'MWarpResults\n'
+		s  += '----- Overview -------------\n'
+		s  += '    mode           = %s\n' %self.mode
+		s  += '    nsources       = %d\n' %self.J
+		s  += '    nnodes         = %d\n' %self.Q
+		s  += '----- 1D Data -------------\n'
+		s  += '    sources        = (%d,%d) array\n' %self.y.shape
+		s  += '    sources_warped = (%d,%d) array\n' %self.yw.shape
+		s  += '    template       = (%d,) array\n' %self.y0.size
+		return s
+		
+	def _parse(self):
+		with np.load(self.fnameNPZ, allow_pickle=True) as Z:
+			self.mode                 = str( Z['mode'] )
+			self.fname0               = str( Z['filename0'] )
+			self.fname1               = str( Z['filename1'] )
+			self.y0                   = Z['ydata_template']
+			self.y                    = Z['ydata_sources']
+			self.yw                   = Z['ydata_sources_warped']
+			
+			self.J                    = self.y.shape[0]
+			self.Q                    = self.y0.size
+
+			if self.mode == 'landmarks':
+				pass
+				# landmarks_template = Z['landmarks_template']
+				# landmarks_sources  = Z['landmarks_sources']
+				# landmark_labels    = [str(s) for s in Z['landmark_labels']]
+
+			elif self.mode == 'manual':
+				swparams = Z['seqwarps']
+				swarps   = []
+				for params in swparams:
+					sw   = SequentialManualWarp()
+					if params is not None:
+						for p in params:
+							amp,center,head,tail = p
+							w = ManualWarp1D(self.Q)
+							w.set_center(center)
+							w.set_amp(amp)
+							w.set_head(head)
+							w.set_tail(tail)
+							sw.append( w )
+					swarps.append(sw)
+				self.smwarps  = swarps
+
+	
+	def apply_warps(self, y):
+		### presumes that the first row is the template
+		return np.array([y[0]] + [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y[1:])])
+		
+
+
+def loadnpz(fname):
+	return MWarpResults(fname)
+	
+
+	
+	
 
 
 def manual_warp(y, center, amp, head=0.2, tail=0.2):
