@@ -45,7 +45,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		self.box_table1.setEnabled(False)
 		self.button_next_curve.setEnabled(False)
 		self.button_previous_curve.setEnabled(False)
-		self.label_current_curve.setEnabled(False)
+		self.spin_current_curve.setEnabled(False)
 		
 		
 
@@ -214,7 +214,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 			self.box_table1.setEnabled(True)
 			self.button_next_curve.setEnabled(True)
 			self.button_previous_curve.setEnabled(True)
-			self.label_current_curve.setEnabled(True)
+			self.spin_current_curve.setEnabled(True)
 
 			if overwrite_source_landmarks:
 				self.figure0.reset_source_landmarks()
@@ -232,7 +232,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 				self.box_table1.setEnabled(False)
 				self.button_next_curve.setEnabled(False)
 				self.button_previous_curve.setEnabled(False)
-				self.label_current_curve.setEnabled(False)
+				self.spin_current_curve.setEnabled(False)
 				
 				self.table1.set_null_values(True)
 				self.figure0.reset_source_landmarks()
@@ -272,13 +272,13 @@ class LandmarksPanel(QtWidgets.QWidget):
 			self.table0.verticalHeader().clearSelection()
 			self.table1.verticalHeader().sectionPressed.emit(ind-1)
 			self.figure1.set_source_selected(ind-1)
-		self.label_current_curve.setText( str(ind) )
+		self.spin_current_curve.setValue( ind )
 		self.repaint()
 		
 
 	
 	def on_curve_left_click_selected(self, ind):
-		self.label_current_curve.setText( str(ind) )
+		self.spin_current_curve.setValue( ind )
 		if ind==0:
 			self.table0.verticalHeader().sectionPressed.emit(0)
 			self.table1.verticalHeader().clearSelection()
@@ -357,7 +357,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		self.table0.verticalHeader().clearSelection()
 		if len(rowlist)==1:
 			self.figure0.select_source_by_table_header_click( rowlist[0] )
-			self.label_current_curve.setText( str(rowlist[0]+1) )
+			self.spin_current_curve.setValue( rowlist[0]+1 )
 			self.figure1.set_source_selected(rowlist[0])
 		else:
 			pass
@@ -393,7 +393,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		self.figure0.set_template_selected()
 		self.table1.verticalHeader().clearSelection()
 		# self.figure0.select_template()
-		self.label_current_curve.setText( '0' )
+		self.spin_current_curve.setValue(0)
 	
 
 	

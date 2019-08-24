@@ -287,27 +287,21 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_current_curve">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>0</height>
-          </size>
-         </property>
+        <widget class="QSpinBox" name="spin_current_curve">
          <property name="maximumSize">
           <size>
            <width>30</width>
-           <height>30</height>
+           <height>16777215</height>
           </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #cccccc;</string>
-         </property>
-         <property name="text">
-          <string>0</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
          </property>
         </widget>
        </item>
