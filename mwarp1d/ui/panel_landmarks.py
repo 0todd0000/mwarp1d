@@ -77,6 +77,9 @@ class LandmarksPanel(QtWidgets.QWidget):
 		A      = np.vstack([a0]*J)
 		
 		
+		# self.label_nsources.setText( str(J) )
+		
+		
 		data.landmarks_template  = np.array(a0)
 		data.landmarks_sources   = A
 		data.landmark_labels     = ['L0', 'L1', 'L2']
@@ -112,6 +115,8 @@ class LandmarksPanel(QtWidgets.QWidget):
 
 		self.table0.verticalHeader().sectionPressed.emit(0)
 		self.table1.set_null_values()
+		
+		self.update_counts()
 
 		
 		self.figure0.set_sources_visible(False)
@@ -130,6 +135,9 @@ class LandmarksPanel(QtWidgets.QWidget):
 		a0     = data.landmarks_template
 		A      = data.landmarks_sources
 	
+		
+		# self.label_nsources.setText( str(A.shape[0]) )
+		# self.label_nlandmarks.setText( str(A.shape[1]) )
 		
 		
 		self.figure0._init(y0, y, a0, A)
@@ -205,6 +213,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 	
 	def on_add_landmark_keyboard(self):
 		self.figure0.tsplot.add_landmark()
+		self.update_counts()
 	
 	
 	def on_button_lock_template(self, locked, overwrite_source_landmarks=True):
@@ -311,6 +320,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 	
 	def on_landmark_deleted(self, ind):
 		self._save_landmark_tables()
+		self.update_counts()
 		
 	def on_left_arrow(self):
 		self.on_previous_curve()
@@ -372,6 +382,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 			source.landmarks.add_point(value)
 		self.table1.add_column(ind)
 		self._save_landmark_tables()
+		self.update_counts()
 		
 
 	def on_template_landmark_delete_failed(self):
@@ -384,6 +395,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 			source.landmarks.delete_point(ind)
 		self.table1.delete_column(ind)
 		self._save_landmark_tables()
+		self.update_counts()
 		
 
 	def on_template_point_dragged(self, ind, x, y):
@@ -451,8 +463,8 @@ class LandmarksPanel(QtWidgets.QWidget):
 			self.update_warped_plot_source_visibility()
 	
 	def update_counts(self):
-		self.label_nsources.setText( str(self.table1.nrow) )
-		self.label_nlandmarks.setText( str(self.table0.ncol) )
+		self.label_nsources.setText( str(self.table1.nrows) )
+		self.label_nlandmarks.setText( str(self.table0.ncols) )
 		
 	
 
