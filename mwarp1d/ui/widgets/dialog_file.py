@@ -6,7 +6,6 @@ from PyQt5 import QtWidgets, QtCore
 class FileSaveDialog(QtWidgets.QFileDialog):
 	def __init__(self, ext=None, dir=None):
 		super().__init__()
-		# self.setWindowTitle('aaaaaBBBBcccc')
 		self.setFilter(self.filter() | QtCore.QDir.Hidden)
 		if dir is not None:
 			self.setDirectory(dir)

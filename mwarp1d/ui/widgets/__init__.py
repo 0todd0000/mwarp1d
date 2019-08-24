@@ -1,4 +1,6 @@
 
+
+from . clickable_label import ClickableLabel
 from . dial_display import DialDisplayWidget
 from . dialog_file import FileSaveDialog
 from . drag_drop_label import DragDropLabel

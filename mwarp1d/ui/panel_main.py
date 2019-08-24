@@ -23,10 +23,10 @@ class MainPanel(QtWidgets.QWidget):
 
 
 		### connect callbacks:
-		self.button_filename_results.clicked.connect( self.on_button_filename )
 		self.button_landmarks.clicked.connect(self.on_button_landmarks)
 		self.button_manual.clicked.connect(self.on_button_manual)
 		self.label_drop_data_files.files_dropped.connect( self.on_drop )
+		self.label_filename_results.clicked.connect( self.on_button_filename )
 		
 	
 	def _plot(self):
@@ -45,6 +45,8 @@ class MainPanel(QtWidgets.QWidget):
 		dialog = FileSaveDialog('npz')
 		dialog.setDirectory( os.path.dirname(self.fname1) )
 		dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
+		s      = os.path.split( self.fname1 )[-1]
+		dialog.selectFile( s )
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:
 			fname  = dialog.selectedFiles()[0]
 		if fname is not None:
