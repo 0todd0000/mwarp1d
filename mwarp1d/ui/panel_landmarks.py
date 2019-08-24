@@ -10,8 +10,6 @@ import mwarp1d
 
 
 
-
-
 class LandmarksPanel(QtWidgets.QWidget):
 	
 	template_locked      = QtCore.pyqtSignal(bool)
@@ -346,7 +344,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		x    = p.sources[row].landmarks.h.get_xdata()
 		x0   = [0] + x0.tolist() + [p.Q-1]
 		x    = [0] + x.tolist() + [p.Q-1]
-		yw   = mwarp1d.warp1d_landmarks(y, x0, x)
+		yw   = mwarp1d.landmark_warp_gui(y, x0, x)
 		self.figure1.h[row].set_ydata( yw )
 		self.figure1.ax.figure.canvas.draw()
 		

@@ -48,6 +48,14 @@ def gaussian_half_kernel(r, amp, n, reverse=False):
 
 
 class _ManualWarp1DAbsolute(object):
+	'''
+	Manual warping field.
+
+	(Do not use this class! Use the ManualWarp1D instead.)
+
+	This warping field utlizes absolute domain units for warping parameters,
+	which are dynamically updated, making it unsuitable for general use.
+	'''
 	
 	def __init__(self, Q):
 		'''
@@ -459,7 +467,7 @@ def interp1d(y, n=101, dtype=None, kind='linear', axis=-1, copy=True, bounds_err
 	Interpolate to a fixed number of points
 
 	:Args:
-		**y** --- original vector (1D NumPy array)
+		**y** --- original 1D data (NumPy array)
 		
 	:Keyword args:
 		**n** --- number of nodes in the interpolated vector (integer)
@@ -494,15 +502,84 @@ def interp1d(y, n=101, dtype=None, kind='linear', axis=-1, copy=True, bounds_err
 	return y1
 	
 
-def warp1d_landmarks(y, x0=[0,50,101], x1=[0,50,101], **kwdargs):
-	nlm       = len(x0)  #number of landmarks
-	n0        = np.diff(x0)
-	n0[-1]   += 1
-	yw        = [interp1d(y[x1[i]:x1[i+1]], n=n0[i], **kwdargs)   for i in range(nlm-1)]
+
+
+
+
+
+
+def landmark_warp(y, x0, x1, **kwdargs):
+	'''
+	Warp 1D data using landmarks. Default: piecewise linear interpolation between landmarks.
+	
+	Landmarks must be specified as integers and must lie at least two nodes from the endpoints.
+	For example, if the domain has 100 nodes, then the minimum and maximum landmark positions
+	are 2 and 97, respectively.  (i.e., 0+2 and 99-2)
+	
+	:Args:
+		**y** --- original 1D data (NumPy array)
+	
+		**x0** --- original landmark locations (list or array of integers)
+	
+		**x1** --- new landmark locations (list or array of integers)
+	
+	:Keyword args:
+		
+		(See documentation for **scipy.interpolate.interp1d**)
+	
+	:Example:
+	
+		>>> import numpy as np
+		>>> from matplotlib import pyplot as plt
+		>>> import mwarp1d
+		>>> 
+		>>> #define landmarks:
+		>>> Q    = 101            #domain size
+		>>> x0   = [38, 63]       #initial landmark location(s)
+		>>> x1   = [25, 63]       #final landmark location(s)
+		>>> 
+		>>> #apply warp:
+		>>> y    = np.sin( np.linspace(0, 4*np.pi, Q) )  #an arbitary 1D observation
+		>>> yw   = mwarp1d.landmark_warp(y, x0, x1)   #warped 1D observation
+		>>> 
+		>>> #plot:
+		>>> plt.figure()
+		>>> ax = plt.axes()
+		>>> ax.plot(y, label='Original')
+		>>> ax.plot(yw, label='Warped')
+		>>> ax.legend()
+		>>> ax.set_xlabel('Domain position  (%)', size=13)
+		>>> ax.set_ylabel('Dependent variable value', size=13)
+		>>> plt.show()
+	'''
+	Q         = y.size
+	x0        = [0] + x0 + [Q]
+	x1        = [0] + x1 + [Q]
+	nlm       = len(x0)      #number of landmarks
+	n1        = np.diff(x1)  #inter-landmark distances
+	yw        = [interp1d(y[x0[i]:x0[i+1]], n=n1[i], **kwdargs)   for i in range(nlm-1)]
 	yw        = np.hstack(yw)
 	return yw
 
 
+
+def landmark_warp_gui(y, x0=[0,50,100], x1=[0,50,100], **kwdargs):
+	'''
+	Minimal landmark-based warping (for GUI use only).
+	
+	Users should use the **landmark_warp** function.
+	
+	x0 : template landmarks
+	x1 : source landmarks
+	'''
+	x0[-1]   += 1            #pad endpoint
+	x1[-1]   += 1            #pad endpoint
+	nlm       = len(x0)
+	n0        = np.diff(x0)
+	# n0[-1]   += 1
+	yw        = [interp1d(y[x1[i]:x1[i+1]], n=n0[i], **kwdargs)   for i in range(nlm-1)]
+	yw        = np.hstack(yw)
+	return yw
 
 
 
