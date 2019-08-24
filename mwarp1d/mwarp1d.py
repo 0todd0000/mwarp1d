@@ -462,6 +462,81 @@ class ManualWarp1D(_ManualWarp1DAbsolute):
 
 
 
+
+class SequentialManualWarp(object):
+	'''
+	A class for storing applying a sequence of independent manual warps.
+	
+	:Properties:
+	
+		**Q** --- domain size (integer)
+		
+		**nwarps** --- number of manual warps in the sequence
+	'''
+	
+	def __init__(self):
+		self.warps    = []
+
+	def __repr__(self):
+		s  = 'SequentialManualWarp\n'
+		s += '   Q         = %s\n' %self.Q
+		s += '   nwarps    = %d\n' %self.nwarps
+		return s
+	
+	
+	@property
+	def Q(self):
+		return None if (self.nwarps==0) else self.warps[0].Q
+
+	@property
+	def nwarps(self):
+		return len(self.warps)
+	
+	def asarray(self):
+		pass
+
+	def append(self, warp):
+		'''
+		Append a warp to the existing sequence.
+		
+		:Args:
+			**warp** --- a ManualWarp1D instance
+		'''
+		assert isinstance(warp, ManualWarp1D), 'warp must be a ManualWarp1D instance'
+		if self.nwarps > 0:
+			assert warp.Q == self.Q, 'warp domain size must match other warps in the sequence (size = %d)' %self.Q
+		self.warps.append(warp)
+		
+	def apply_warp_sequence(self, y):
+		'''
+		Apply all warps sequentially.
+		
+		:Args:
+			**y** --- a 1D numpy array (must be same size as the warps in the warp sequence)
+
+		:Returns:
+			warped 1D data (numpy array)
+		'''
+		yw = y.copy()
+		for warp in self.warps:
+			yw = warp.apply_warp(yw)
+		return yw
+	
+	def fromarray(self):
+		pass
+
+	def reset(self):
+		'''
+		Reset the warp sequence (remove all warps)
+		'''
+		self.warps = []
+		
+		
+
+
+
+
+
 def interp1d(y, n=101, dtype=None, kind='linear', axis=-1, copy=True, bounds_error=True, fill_value=np.nan):
 	'''
 	Interpolate to a fixed number of points
@@ -519,9 +594,9 @@ def landmark_warp(y, x0, x1, **kwdargs):
 	:Args:
 		**y** --- original 1D data (NumPy array)
 	
-		**x0** --- original landmark locations (list or array of integers)
+		**x0** --- original landmark locations (list or array of integers, monotonically increasing)
 	
-		**x1** --- new landmark locations (list or array of integers)
+		**x1** --- new landmark locations (list or array of integers, monotonically increasing)
 	
 	:Keyword args:
 		
@@ -536,7 +611,7 @@ def landmark_warp(y, x0, x1, **kwdargs):
 		>>> #define landmarks:
 		>>> Q    = 101            #domain size
 		>>> x0   = [38, 63]       #initial landmark location(s)
-		>>> x1   = [25, 63]       #final landmark location(s)
+		>>> x1   = [25, 68]       #final landmark location(s)
 		>>> 
 		>>> #apply warp:
 		>>> y    = np.sin( np.linspace(0, 4*np.pi, Q) )  #an arbitary 1D observation
@@ -545,14 +620,36 @@ def landmark_warp(y, x0, x1, **kwdargs):
 		>>> #plot:
 		>>> plt.figure()
 		>>> ax = plt.axes()
-		>>> ax.plot(y, label='Original')
-		>>> ax.plot(yw, label='Warped')
+		>>> c0,c1 = 'blue', 'orange'
+		>>> ax.plot(y,  color=c0, label='Original')
+		>>> ax.plot(yw, color=c1, label='Warped')
+		>>> [ax.plot(xx, y[xx],  'o', color=c0)  for xx in x0]
+		>>> [ax.plot(xx, yw[xx], 'o', color=c1)    for xx in x1]
 		>>> ax.legend()
 		>>> ax.set_xlabel('Domain position  (%)', size=13)
 		>>> ax.set_ylabel('Dependent variable value', size=13)
 		>>> plt.show()
 	'''
+	assert isinstance(y, np.ndarray), 'y must be a numpy array'
+	assert y.ndim==1, 'y must be a one-dimensional numpy array'
 	Q         = y.size
+	
+	for i,x in enumerate([x0,x1]):
+		assert isinstance(x, (list,np.ndarray)), 'x%d must be a list or a numpy array' %i
+		x     = np.asarray(x)
+		assert x.ndim==1, 'x%d must be a list or a one-dimensional numpy array' %i
+		assert np.issubdtype(x.dtype, np.integer), 'x%d must contain only integers' %i
+		assert min(x)>=2, 'minimum supported value for x%d is 2' %i
+		assert max(x)<Q-2, 'maximum supported value for x%d is %d' %(i, (Q-3))
+	
+	x0,x1       = np.asarray(x0, dtype=int), np.asarray(x1, dtype=int)
+	assert x0.size==x1.size, 'x0 and x1 must contain the same number of landmarks'
+	
+	for i,x in enumerate([x0,x1]):
+		assert np.all( np.diff(x)>0 ), 'the integers in x%d must be monotonically increasing' %i
+		
+	x0,x1     = list(x0), list(x1)
+	
 	x0        = [0] + x0 + [Q]
 	x1        = [0] + x1 + [Q]
 	nlm       = len(x0)      #number of landmarks
@@ -676,3 +773,66 @@ def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
 		os.system(command)
 
 
+
+
+def manual_warp(y, center, amp, head=0.2, tail=0.2):
+	'''
+	Warp 1D data using landmarks. Default: piecewise linear interpolation between landmarks.
+	
+	Landmarks must be specified as integers and must lie at least two nodes from the endpoints.
+	For example, if the domain has 100 nodes, then the minimum and maximum landmark positions
+	are 2 and 97, respectively.  (i.e., 0+2 and 99-2)
+	
+	:Args:
+		**y** --- original 1D data (NumPy array)
+	
+		**center** --- warp kernel center, relative to its feasible range (between 0 and 1)
+	
+		**amp** --- warp kernel amplitude, relative to its feasible range (between -1 and 1)
+	
+	:Keyword args:
+		
+		**head** --- warp kernel head width, relative to its feasible range (between 0 and 1)
+	
+		**tail** --- warp kernel tail width, relative to its feasible range (between 0 and 1)
+	
+	:Example:
+	
+		>>> from matplotlib import pyplot as plt
+		>>> import mwarp1d
+		>>> 
+		>>> #define warp:
+		>>> Q      = 101
+		>>> center = 0.25
+		>>> amp    = 0.5
+		>>> head   = 0.2
+		>>> tail   = 0.2
+		>>> 
+		>>> #apply warp:
+		>>> y    = np.sin( np.linspace(0, 4*np.pi, Q) )  #an arbitary 1D observation
+		>>> yw   = mwarp1d.manual_warp(y, center, amp, head, tail) #warped 1D observation
+		>>> 
+		>>> #plot:
+		>>> plt.figure()
+		>>> ax = plt.axes()
+		>>> ax.plot(y, label='Original')
+		>>> ax.plot(yw, label='Warped')
+		>>> ax.legend()
+		>>> ax.set_xlabel('Domain position  (%)', size=13)
+		>>> ax.set_ylabel('Dependent variable value', size=13)
+		>>> plt.show()
+	
+	'''
+	
+	Q    = y.size
+	warp = ManualWarp1D(Q)
+	warp.set_center(center)
+	warp.set_amp(amp)               #relative warp amplitude (-1 to 1)
+	warp.set_head(head)             #relative warp head (0 to 1)
+	warp.set_tail(tail)             #relative warp tail (0 to 1)
+	return warp.apply_warp(y)
+
+
+
+
+	
