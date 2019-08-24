@@ -104,9 +104,9 @@ class _MWarp1DData(object):
 
 
 
-class DataLandmarks(_MWarp1DData):
+class DataLandmark(_MWarp1DData):
 	
-	mode                 = 'landmarks'
+	mode                 = 'landmark'
 	landmarks_template   = None
 	landmarks_sources    = None
 	landmark_labels      = None

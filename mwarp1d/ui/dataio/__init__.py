@@ -1,4 +1,4 @@
 
-from . data import DataLandmarks,DataManual
+from . data import DataLandmark,DataManual
 from . read import loadnpz
 

@@ -329,7 +329,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Landmarks</string>
+           <string>Landmark</string>
           </property>
          </widget>
         </item>

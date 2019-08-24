@@ -54,7 +54,7 @@ def interp1d(y, n=101, dtype=None, kind='linear', axis=-1, copy=True, bounds_err
 
 
 
-def landmark_warp(y, x0, x1, **kwdargs):
+def warp_landmark(y, x0, x1, **kwdargs):
 	'''
 	Warp 1D data using landmarks. Default: piecewise linear interpolation between landmarks.
 	
@@ -86,7 +86,7 @@ def landmark_warp(y, x0, x1, **kwdargs):
 		>>> 
 		>>> #apply warp:
 		>>> y    = np.sin( np.linspace(0, 4*np.pi, Q) )  #an arbitary 1D observation
-		>>> yw   = mwarp1d.landmark_warp(y, x0, x1)   #warped 1D observation
+		>>> yw   = mwarp1d.warp_landmark(y, x0, x1)   #warped 1D observation
 		>>> 
 		>>> #plot:
 		>>> plt.figure()
@@ -131,11 +131,11 @@ def landmark_warp(y, x0, x1, **kwdargs):
 
 
 
-def landmark_warp_gui(y, x0=[0,50,100], x1=[0,50,100], **kwdargs):
+def warp_landmark_gui(y, x0=[0,50,100], x1=[0,50,100], **kwdargs):
 	'''
-	Minimal landmark-based warping (for GUI use only).
+	Minimal landmark-based warping (for internal GUI use only).
 	
-	Users should use the **landmark_warp** function.
+	Users should use the **warp_landmark** function.
 	
 	x0 : template landmarks
 	x1 : source landmarks

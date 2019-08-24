@@ -22,7 +22,7 @@ def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
 		
 		**data** --- a 2D NumPy array (rows = observations, columns = domain nodes)
 		
-		**mode** --- "landmarks" or "manual"
+		**mode** --- "landmark" or "manual"
 		
 		**filename_results** --- file name (zipped NumPy format, with extension "npz") into which warping results will be saved
 
@@ -37,8 +37,8 @@ def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
 		assert data.ndim==2, '"data" must be a 2-D numpy array'
 		narg   += 1
 	if mode is not None:
-		modes   = ['landmarks', 'manual']
-		assert mode in modes, '"mode" must be "landmarks" or "manual"'
+		modes   = ['landmark', 'manual']
+		assert mode in modes, '"mode" must be "landmark" or "manual"'
 		narg   += 1
 	if filename_results is not None:
 		msg     = '"filename_results" must be a valid filename with the extension ".npz"'
@@ -130,7 +130,7 @@ class MWarpResults(object):
 			self.J                    = self.y.shape[0]
 			self.Q                    = self.y0.size
 
-			if self.mode == 'landmarks':
+			if self.mode == 'landmark':
 				pass
 				# landmarks_template = Z['landmarks_template']
 				# landmarks_sources  = Z['landmarks_sources']

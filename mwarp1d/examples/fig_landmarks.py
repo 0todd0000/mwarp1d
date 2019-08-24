@@ -15,7 +15,7 @@ y0,y1    = y[0], y[-1]   #two trials for demonstration
 #define landmarks and apply warp:
 lm0      = [0, 9, 14, 24, 70, 99]
 lm1      = [0, 11, 22, 33, 73, 99]
-y1w      = mwarp1d.warp1d_landmarks(y1, lm0, lm1)
+y1w      = mwarp1d.warp_landmark(y1, lm0, lm1)
 
 
 #plot:

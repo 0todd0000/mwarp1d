@@ -550,7 +550,7 @@ class SequentialManualWarp(object):
 	
 
 
-def manual_warp(y, center, amp, head=0.2, tail=0.2):
+def warp_manual(y, center, amp, head=0.2, tail=0.2):
 	'''
 	Warp 1D data using landmarks. Default: piecewise linear interpolation between landmarks.
 	
@@ -585,7 +585,7 @@ def manual_warp(y, center, amp, head=0.2, tail=0.2):
 		>>> 
 		>>> #apply warp:
 		>>> y    = np.sin( np.linspace(0, 4*np.pi, Q) )  #an arbitary 1D observation
-		>>> yw   = mwarp1d.manual_warp(y, center, amp, head, tail) #warped 1D observation
+		>>> yw   = mwarp1d.warp_manual(y, center, amp, head, tail) #warped 1D observation
 		>>> 
 		>>> #plot:
 		>>> plt.figure()

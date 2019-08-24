@@ -1,7 +1,7 @@
 
 import numpy as np
 
-from . import DataLandmarks,DataManual
+from . import DataLandmark,DataManual
 
 def loadnpz(fname):
 	with np.load(fname) as Z:
@@ -17,14 +17,14 @@ def loadnpz(fname):
 			landmarks_sources  = Z['landmarks_sources']
 			landmark_labels    = [str(s) for s in Z['landmark_labels']]
 
-	data = DataManual() if (mode == 'manual') else DataLandmarks()
+	data = DataManual() if (mode == 'manual') else DataLandmark()
 	data.set_input_filename(fname0, read=False)
 	data.set_output_filename(fname)
 	data.set_template( ydata_template )
 	data.set_sources( ydata_sources, init_warped=False )
 	data.set_sources_warped( ydata_sources_warped )
 
-	if mode == 'landmarks':
+	if mode == 'landmark':
 		data.set_landmark_labels( landmark_labels )
 		data.set_template_landmarks( landmarks_template )
 		data.set_source_landmarks( landmarks_sources )

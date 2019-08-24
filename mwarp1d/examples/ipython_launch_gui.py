@@ -5,7 +5,7 @@ Optional arguments to the mwarp1d.launch_gui function include:
 
 * data            #2D numpy array
 * filename_data   #csv file name containing input data
-* mode   #'landmarks' or 'manual'
+* mode   #'landmark' or 'manual'
 * filename_results  #npz file name into which warp session data will be saved
 
 The following patterns are acceptable:
