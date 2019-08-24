@@ -9,4 +9,6 @@ Version: 0.1.0 (2019/08/23)
 
 __version__ = '0.1.0'  #(2019.08.23)
 
-from . mwarp1d import *
+from . manual import *
+from . landmark import *
+from . uii import *
