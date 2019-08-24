@@ -155,9 +155,18 @@ class MWarpResults(object):
 
 	
 	def apply_warps(self, y):
-		### presumes that the first row is the template
-		return np.array([y[0]] + [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y[1:])])
-		
+		assert isinstance(y, np.ndarray), 'y must be a numpy array'
+		assert y.ndim==2, 'y must be a 2D numpy array'
+		J,Q = y.shape
+		assert (J==self.J) or (J==(self.J+1)), 'y must have %d rows (if y contains only sources) or %d rows (if y contains both template and sources)' %(self.J, self.J+1)
+		assert Q==self.Q, 'y must have %d columns' %self.Q
+		if J==self.J: #only sources submitted
+			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y)]
+		else: #template also submitted (first row)
+			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y[1:])]
+			yw = [y[0]] + yw
+		return np.array(yw)
+
 
 
 def loadnpz(fname):
