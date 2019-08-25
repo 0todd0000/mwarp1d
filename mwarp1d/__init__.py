@@ -12,3 +12,10 @@ __version__ = '0.1.0'  #(2019.08.23)
 from . manual import *
 from . landmark import *
 from . uii import *
+
+
+def get_data_dir():
+	import os
+	dir_root     = os.path.dirname( __file__ )
+	dir_data     = os.path.join( dir_root , 'examples', 'data' )
+	return dir_data
