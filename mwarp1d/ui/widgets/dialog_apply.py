@@ -34,7 +34,7 @@ class ApplyDialog(QtWidgets.QDialog):
 		dir0,s   = os.path.split(self.fnameCSV)
 		s        = s[:-4] + '_w' + s[-4:]
 		fname1   = os.path.join(dir0, s)
-		np.savetxt(fname1, self.yw, delimiter=',')
+		# np.savetxt(fname1, self.yw, delimiter=',')
 
 
 if __name__ == '__main__':

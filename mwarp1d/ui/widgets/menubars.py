@@ -1,7 +1,7 @@
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
-from . import FileSaveDialog
+from . import FileSaveDialog,ApplyDialog
 
 
 class _Menu(QtWidgets.QMenu):
@@ -19,6 +19,23 @@ class _Menu(QtWidgets.QMenu):
 			fname = dialog.selectedFiles()[0]
 			p     = obj.grab()
 			p.save(fname, 'jpg')
+
+	def on_apply_warps(self):
+		print('on_apply_warps')
+		dialog = ApplyDialog()
+		# dialog.setDirectory( os.path.dirname(self.fname1) )
+		# dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
+		# s      = os.path.split( self.fname1 )[-1]
+		# dialog.selectFile( s )
+		if dialog.exec_() == QtWidgets.QDialog.Accepted:
+			print('accepted')
+		else:
+			print('cancelled')
+		print(dialog.fnameCSV)
+		print(dialog.y.shape)
+		print(dialog.yw.shape)
+		
+
 
 	def on_export_csv_warped(self):
 		dialog = FileSaveDialog('csv', self.mainapp.dir0)
@@ -71,15 +88,18 @@ class LandmarksExportMenu(_Menu):
 		export0     = QtWidgets.QAction('Warped 1D data', self)
 		export1     = QtWidgets.QAction('Landmarks', self)
 		export2     = QtWidgets.QAction('MAT', self)
+		export3     = QtWidgets.QAction('Apply warps...', self)
 		menu_csv.addAction(export0)
 		menu_csv.addAction(export1)
 		### add actions:
 		self.addMenu(menu_csv)
 		self.addAction(export2)
+		self.addAction(export3)
 		### callbacks:
 		export0.triggered.connect( self.on_export_csv_warped )
 		export1.triggered.connect( self.on_export_csv_landmarks )
 		export2.triggered.connect( self.on_export_mat )
+		export3.triggered.connect( self.on_apply_warps )
 		
 	def on_export_csv_landmarks(self):
 		dialog = FileSaveDialog('csv', self.mainapp.dir0)
@@ -198,6 +218,7 @@ class LandmarksQuickKeyMenu(_Menu):
 
 
 
+
 class ManualExportMenu(_Menu):
 	title            = 'Export'
 	
@@ -207,13 +228,16 @@ class ManualExportMenu(_Menu):
 		menu_csv    = QtWidgets.QMenu('CSV', self)
 		export0     = QtWidgets.QAction('Warped 1D data', self)
 		export2     = QtWidgets.QAction('MAT', self)
+		export3     = QtWidgets.QAction('Apply warps...', self)
 		menu_csv.addAction(export0)
 		### add actions:
 		self.addMenu(menu_csv)
 		self.addAction(export2)
+		self.addAction(export3)
 		### callbacks:
 		export0.triggered.connect( self.on_export_csv_warped )
 		export2.triggered.connect( self.on_export_mat )
+		export3.triggered.connect( self.on_apply_warps )
 
 
 class ManualScreenshotMenu(_Menu):
