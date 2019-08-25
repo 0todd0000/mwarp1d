@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets, QtCore
 class DragDropLabel(QtWidgets.QLabel):
 	
 	files_dropped = QtCore.pyqtSignal(list)
+	ftypes        = ['.CSV', '.NPZ']
 
 	def __init__(self, parent):
 		super().__init__(parent)
@@ -17,7 +18,7 @@ class DragDropLabel(QtWidgets.QLabel):
 		if e.mimeData().hasUrls() and len(e.mimeData().urls())<=2:
 			e.accept()
 			fname = e.mimeData().urls()[0].toLocalFile()
-			if os.path.splitext(fname)[1].upper() in ['.CSV', '.NPZ']:
+			if os.path.splitext(fname)[1].upper() in self.ftypes:
 				self.set_color(1)
 			else:
 				self.set_color(2)
@@ -40,4 +41,7 @@ class DragDropLabel(QtWidgets.QLabel):
 		else:
 			self.setStyleSheet('background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(210, 150, 150, 255), stop:1 rgba(200, 200, 200, 255));')
 
-	
+
+
+class DragDropLabelCSV(DragDropLabel):
+	ftypes = ['.CSV']
