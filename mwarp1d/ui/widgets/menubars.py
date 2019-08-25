@@ -12,7 +12,7 @@ class _Menu(QtWidgets.QMenu):
 		self.mainapp = mainapp
 		self.panel   = panel
 		self.setTitle( self.title )
-
+		
 	def _grab(self, obj):
 		dialog = FileSaveDialog('jpg', self.mainapp.dir0)
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:
@@ -21,20 +21,11 @@ class _Menu(QtWidgets.QMenu):
 			p.save(fname, 'jpg')
 
 	def on_apply_warps(self):
-		print('on_apply_warps')
-		dialog = ApplyDialog()
-		# dialog.setDirectory( os.path.dirname(self.fname1) )
-		# dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
-		# s      = os.path.split( self.fname1 )[-1]
-		# dialog.selectFile( s )
-		if dialog.exec_() == QtWidgets.QDialog.Accepted:
-			print('accepted')
-		else:
-			print('cancelled')
-		print(dialog.fnameCSV)
-		print(dialog.y.shape)
-		print(dialog.yw.shape)
-		
+		dialog = ApplyDialog(self.panel)
+		if dialog.exec_() == QtWidgets.QDialog.Accepted:  #"save" selected
+			pass  #print('Warps applied')
+		else: #"cancel" selected
+			pass
 
 
 	def on_export_csv_warped(self):

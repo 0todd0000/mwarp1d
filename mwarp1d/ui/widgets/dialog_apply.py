@@ -15,15 +15,14 @@ class ApplyDialog(QtWidgets.QDialog):
 		super().__init__(parent=parent)
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'dialog_apply.ui' )
 		uic.loadUi(fnameUI, self)
-		
-		
+		self.panel = parent
 		self.label_drop_data_files.files_dropped.connect( self.on_drop )
 		self.buttonbox.accepted.connect( self.on_save )
 
 	def on_drop(self, filenames):
 		self.fnameCSV = filenames[0]
 		self.y   = np.loadtxt(self.fnameCSV, delimiter=',')
-		self.yw  = self.y.copy()
+		self.yw = self.panel.data.apply_warps( self.y )
 		self.fig.ax.plot(self.y.T)
 		self.figw.ax.plot(self.yw.T)
 		self.stack.setCurrentIndex(1)
@@ -34,7 +33,7 @@ class ApplyDialog(QtWidgets.QDialog):
 		dir0,s   = os.path.split(self.fnameCSV)
 		s        = s[:-4] + '_w' + s[-4:]
 		fname1   = os.path.join(dir0, s)
-		# np.savetxt(fname1, self.yw, delimiter=',')
+		np.savetxt(fname1, self.yw, delimiter=',')
 
 
 if __name__ == '__main__':

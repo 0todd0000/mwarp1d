@@ -2,6 +2,7 @@
 import os
 import numpy as np
 from scipy.io import savemat
+import mwarp1d
 
 
 class _MWarp1DData(object):
@@ -49,6 +50,9 @@ class _MWarp1DData(object):
 		self.ydata_sources_warped = y[1:].copy()
 		self._init_other_attributes()
 		
+	
+
+	
 	
 	def get_dictionary(self):
 		d                         = {}
@@ -114,6 +118,18 @@ class DataLandmark(_MWarp1DData):
 	def _init_other_attributes(self):
 		pass
 
+	def apply_warps(self, y):
+		lm0 = self.landmarks_template
+		lm  = self.landmarks_sources
+		J   = y.shape[0]
+		if J==self.nsources: #only sources submitted
+			yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y)]
+		else: #template also submitted (first row)
+			yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y[1:])]
+			yw = [y[0]] + yw
+		return np.array(yw)
+	
+	
 	def get_dictionary(self):
 		d     = super().get_dictionary()
 		d['landmarks_template']  = self.landmarks_template
@@ -153,6 +169,39 @@ class DataManual(_MWarp1DData):
 	def _init_other_attributes(self):
 		J,Q              = self.ydata_sources.shape
 		self.seqwarps    = np.empty(J, dtype=object)
+
+	def apply_warps(self, y):
+		J,Q    = y.shape
+		swarps = []
+		for params in self.seqwarps:
+			sw   = mwarp1d.SequentialManualWarp()
+			if params is not None:
+				for p in params:
+					amp,center,head,tail = p
+					w = mwarp1d.ManualWarp1D(Q)
+					w.set_center(center)
+					w.set_amp(amp)
+					w.set_head(head)
+					w.set_tail(tail)
+					sw.append( w )
+			swarps.append(sw)
+			
+
+		
+
+		if J==self.nsources: #only sources submitted
+			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y)]
+		else: #template also submitted (first row)
+			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y[1:])]
+			yw = [y[0]] + yw
+
+
+		return np.array(yw)
+
+
+
+
+			
 
 	def get_dictionary(self):
 		d              = super().get_dictionary()
