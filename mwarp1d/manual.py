@@ -532,8 +532,9 @@ class SequentialManualWarp(object):
 			warped 1D data (numpy array)
 		'''
 		yw = y.copy()
-		for warp in self.warps:
-			yw = warp.apply_warp(yw)
+		if self.nwarps>0:
+			for warp in self.warps:
+				yw = warp.apply_warp(yw)
 		return yw
 	
 	def fromarray(self):

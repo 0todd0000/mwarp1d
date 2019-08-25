@@ -164,7 +164,6 @@ class ManualPanel(QtWidgets.QWidget):
 			self.enable_curve_selection()
 			self.warp_controls.set_warp_enabled(False)
 			self.warp_cancelled.emit()
-		
 
 	def on_key_return(self):
 		if self.figure.tsplot.iswarpactive:
@@ -194,7 +193,9 @@ class ManualPanel(QtWidgets.QWidget):
 			self.figure.update_idle()
 			
 			ind    = self.spin_current_curve.value() - 1
+			source = self.figure.tsplot.active_object
 			self.data.seqwarps[ind] = None
+			self.data.ydata_sources_warped[ind] = source.y0
 			self.data.save()
 
 

@@ -5,7 +5,7 @@ functions and classes for interfacing with the UI via scripting
 
 import numpy as np
 from . manual import ManualWarp1D, SequentialManualWarp
-
+from . landmark import warp_landmark
 
 
 def launch_gui(data=None, mode=None, filename_results=None, filename_data=None):
@@ -120,21 +120,22 @@ class MWarpResults(object):
 		
 	def _parse(self):
 		with np.load(self.fnameNPZ, allow_pickle=True) as Z:
-			self.mode                 = str( Z['mode'] )
-			self.fname0               = str( Z['filename0'] )
-			self.fname1               = str( Z['filename1'] )
-			self.y0                   = Z['ydata_template']
-			self.y                    = Z['ydata_sources']
-			self.yw                   = Z['ydata_sources_warped']
+			self.mode              = str( Z['mode'] )
+			self.fname0            = str( Z['filename0'] )
+			self.fname1            = str( Z['filename1'] )
+			self.y0                = Z['ydata_template']
+			self.y                 = Z['ydata_sources']
+			self.yw                = Z['ydata_sources_warped']
 			
-			self.J                    = self.y.shape[0]
-			self.Q                    = self.y0.size
+			self.J                 = self.y.shape[0]
+			self.Q                 = self.y0.size
 
 			if self.mode == 'landmark':
-				pass
-				# landmarks_template = Z['landmarks_template']
-				# landmarks_sources  = Z['landmarks_sources']
-				# landmark_labels    = [str(s) for s in Z['landmark_labels']]
+				landmarks_template = Z['landmarks_template']
+				landmarks_sources  = Z['landmarks_sources']
+				landmark_labels    = [str(s) for s in Z['landmark_labels']]
+				self.lm0           = landmarks_template
+				self.lm            = landmarks_sources
 
 			elif self.mode == 'manual':
 				swparams = Z['seqwarps']
@@ -154,17 +155,44 @@ class MWarpResults(object):
 				self.smwarps  = swarps
 
 	
+	@property
+	def nnodes(self):
+		return self.Q
+	@property
+	def nsources(self):
+		return self.J
+	@property
+	def sources(self):
+		return self.y
+	@property
+	def sources_warped(self):
+		return self.yw
+	@property
+	def template(self):
+		return self.y0
+	
+	
 	def apply_warps(self, y):
 		assert isinstance(y, np.ndarray), 'y must be a numpy array'
 		assert y.ndim==2, 'y must be a 2D numpy array'
 		J,Q = y.shape
 		assert (J==self.J) or (J==(self.J+1)), 'y must have %d rows (if y contains only sources) or %d rows (if y contains both template and sources)' %(self.J, self.J+1)
 		assert Q==self.Q, 'y must have %d columns' %self.Q
-		if J==self.J: #only sources submitted
-			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y)]
-		else: #template also submitted (first row)
-			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y[1:])]
-			yw = [y[0]] + yw
+		
+		if self.mode=='manual':
+			if J==self.J: #only sources submitted
+				yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y)]
+			else: #template also submitted (first row)
+				yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(self.smwarps, y[1:])]
+				yw = [y[0]] + yw
+				
+		elif self.mode=='landmark':
+			if J==self.J: #only sources submitted
+				yw = [warp_landmark(yy, lm, self.lm0)  for lm,yy in zip(self.lm,y)]
+			else: #template also submitted (first row)
+				yw = [warp_landmark(yy, lm, self.lm0)  for lm,yy in zip(self.lm,y[1:])]
+				yw = [y[0]] + yw
+			
 		return np.array(yw)
 
 

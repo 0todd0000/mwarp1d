@@ -82,7 +82,7 @@ class MainWindow(QtWidgets.QMainWindow):
 			if mode not in ['landmarks', 'manual']:
 				raise ValueError('Unknown mode: %s ("mode" must be either "landmarks" or "manual")' %mode)
 			if mode == 'landmarks':
-				data = DataLandmarks()
+				data = DataLandmark()
 				self.panel_landmarks.set_data(data)
 				self._set_panel(1)
 			elif mode == 'manual':
@@ -133,7 +133,7 @@ class MainWindow(QtWidgets.QMainWindow):
 	
 	def start_landmark_mode(self, template, sources, fname0, fname1=None):
 		fname1 = self.get_results_filename(fname0, fname1)
-		data   = DataLandmarks()
+		data   = DataLandmark()
 		data.set_input_filename( fname0, read=False )
 		data.set_output_filename( fname1 )
 		data.set_template(template)

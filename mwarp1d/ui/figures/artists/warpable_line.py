@@ -42,9 +42,11 @@ class _WarpableLine(_SelectableArtist2D):
 		self.xw    = self.x0.copy()
 		self.yw    = self.y0.copy()
 		self.seqw.reset()
+		print('reset_domain')
 
 	def revert_to_previous_warp(self):
 		self.set_warped_domain( self.xw )
+		# self.xw    = self.x0.copy()
 
 	def save_warp(self, warp):
 		self.xw    = self.x0.copy()
