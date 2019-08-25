@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>884</width>
-    <height>366</height>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,14 +121,51 @@
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonbox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Output file(s)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="ClickableLabel" name="label_fname1">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);
+color: rgb(200, 200, 200);</string>
+       </property>
+       <property name="text">
+        <string>(Output file name)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonbox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -143,6 +180,11 @@
    <extends>QWidget</extends>
    <header>figures</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>widgets</header>
   </customwidget>
  </customwidgets>
  <resources/>
