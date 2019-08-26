@@ -20,6 +20,7 @@ class MainPanel(QtWidgets.QWidget):
 		
 		self.stackedwidget.setCurrentIndex(0)
 		self.groupbox_warping_mode.setEnabled(False)
+		self.label_drop_data_files.set_filetypes( ['CSV', 'NPZ'] )
 
 
 		### connect callbacks:

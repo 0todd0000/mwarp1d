@@ -122,11 +122,24 @@ class DataLandmark(_MWarp1DData):
 		lm0 = self.landmarks_template
 		lm  = self.landmarks_sources
 		J   = y.shape[0]
-		if J==self.nsources: #only sources submitted
-			yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y)]
-		else: #template also submitted (first row)
-			yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y[1:])]
-			yw = [y[0]] + yw
+		
+		if y.ndim==2:
+			if J==self.nsources: #only sources submitted
+				yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y)]
+			else: #template also submitted (first row)
+				yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y[1:])]
+				yw = [y[0]] + yw
+		else:
+			yw = np.random.randn(5,101,3)
+			Yw = []
+			for i in range(y.shape[2]):
+				if J==self.nsources: #only sources submitted
+					yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y[:,:,i])]
+				else: #template also submitted (first row)
+					yw = [mwarp1d.warp_landmark(yy, xx, lm0)  for xx,yy in zip(lm,y[1:,:,i])]
+					yw = [y[0,:,i]] + yw
+				Yw.append( np.array(yw) )
+			yw = np.dstack(Yw)
 		return np.array(yw)
 	
 	
@@ -171,7 +184,7 @@ class DataManual(_MWarp1DData):
 		self.seqwarps    = np.empty(J, dtype=object)
 
 	def apply_warps(self, y):
-		J,Q    = y.shape
+		J,Q    = y.shape[:2]
 		swarps = []
 		for params in self.seqwarps:
 			sw   = mwarp1d.SequentialManualWarp()
@@ -187,21 +200,30 @@ class DataManual(_MWarp1DData):
 			swarps.append(sw)
 			
 
-		
-
-		if J==self.nsources: #only sources submitted
-			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y)]
-		else: #template also submitted (first row)
-			yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y[1:])]
-			yw = [y[0]] + yw
-
-
+		if y.ndim==2:
+			if J==self.nsources: #only sources submitted
+				yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y)]
+			else: #template also submitted (first row)
+				yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y[1:])]
+				yw = [y[0]] + yw
+			
+		else:
+			yw = np.random.randn(5,101,3)
+			Yw = []
+			for i in range(y.shape[2]):
+				
+				if J==self.nsources: #only sources submitted
+					yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y[:,:,i])]
+				else: #template also submitted (first row)
+					yw = [ww.apply_warp_sequence(yy)   for ww,yy in zip(swarps, y[1:,:,i])]
+					yw = [y[0,:,i]] + yw
+				Yw.append( np.array(yw) )
+			yw = np.dstack(Yw)
 		return np.array(yw)
 
 
 
 
-			
 
 	def get_dictionary(self):
 		d              = super().get_dictionary()

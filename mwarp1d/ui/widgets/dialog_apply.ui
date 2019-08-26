@@ -56,7 +56,7 @@
        <widget class="QWidget" name="page">
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="DragDropLabelCSV" name="label_drop_data_files">
+          <widget class="MultiFileDragDropLabel" name="label_drop_data_files">
            <property name="styleSheet">
             <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:1 rgba(200, 200, 200, 255));
 </string>
@@ -126,7 +126,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_fname1_label">
        <property name="maximumSize">
         <size>
          <width>100</width>
@@ -139,7 +139,7 @@
       </widget>
      </item>
      <item>
-      <widget class="ClickableLabel" name="label_fname1">
+      <widget class="QLabel" name="label_fname1">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(100, 100, 100);
 color: rgb(200, 200, 200);</string>
@@ -171,7 +171,7 @@ color: rgb(200, 200, 200);</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DragDropLabelCSV</class>
+   <class>MultiFileDragDropLabel</class>
    <extends>QLabel</extends>
    <header>widgets</header>
   </customwidget>
@@ -180,11 +180,6 @@ color: rgb(200, 200, 200);</string>
    <extends>QWidget</extends>
    <header>figures</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ClickableLabel</class>
-   <extends>QLabel</extends>
-   <header>widgets</header>
   </customwidget>
  </customwidgets>
  <resources/>
