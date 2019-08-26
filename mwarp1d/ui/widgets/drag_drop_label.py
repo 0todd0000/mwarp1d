@@ -46,6 +46,9 @@ class DragDropLabel(QtWidgets.QLabel):
 		filenames = [url.toLocalFile() for url in e.mimeData().urls()]
 		self.files_dropped.emit(filenames)
 
+	def reset_color(self):
+		self.set_color(0)
+	
 	def set_color(self, color_code):
 		if color_code == 0:
 			self.setStyleSheet('background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:1 rgba(200, 200, 200, 255));')

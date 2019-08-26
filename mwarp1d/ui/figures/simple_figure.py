@@ -32,4 +32,8 @@ class SimpleFigure(FigureCanvas):
 		colors = cm.jet( np.linspace(0, 1, n) )
 		for i,c in enumerate(colors):
 			self.ax.plot( y[:,:,i].T, color=c, lw=0.5 )
-	
+
+
+	def reset(self):
+		self.ax.cla()
+		self.ax.figure.canvas.draw()

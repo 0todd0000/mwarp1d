@@ -24,6 +24,7 @@ class MainPanel(QtWidgets.QWidget):
 
 
 		### connect callbacks:
+		self.button_clear.clicked.connect(self.on_button_clear)
 		self.button_landmarks.clicked.connect(self.on_button_landmarks)
 		self.button_manual.clicked.connect(self.on_button_manual)
 		self.label_drop_data_files.files_dropped.connect( self.on_drop )
@@ -37,10 +38,15 @@ class MainPanel(QtWidgets.QWidget):
 		h0 = ax.plot( y0,  lw=5, color='k')[0]
 		h1 = ax.plot( y.T, lw=1, color='0.8')[0]
 		ax.legend([h0,h1], ['Template','Source'])
+		ax.figure.canvas.draw()
 		
 		
 		
+	def on_button_clear(self):
+		self.reset_panel()
 		
+		
+	
 	def on_button_filename(self):
 		fname  = None
 		dialog = FileSaveDialog('npz')
@@ -72,6 +78,8 @@ class MainPanel(QtWidgets.QWidget):
 				fname1 = self.mainapp.get_results_filename(fname)
 				y      = np.loadtxt(fname, delimiter=',')
 				y0,y   = y[0], y[1:]
+				
+				print(fname)
 
 
 				self.fname          = fname
@@ -97,6 +105,23 @@ class MainPanel(QtWidgets.QWidget):
 			self.groupbox_warping_mode.setEnabled(True)
 
 		
+	def reset_panel(self):
+		self.label_filename_results.setText( "" )
+		self.label_nsources.setText( "" )
+		self.label_nnodes.setText( "" )
+		self.groupbox_warping_mode.setEnabled(False)
+		self.label_drop_data_files.reset_color()
+		
+		self.fname          = None
+		self.fname1         = None
+		self.template_array = None
+		self.sources_array  = None
+		
+		self.fig.reset()
+		
+		self.stackedwidget.setCurrentIndex(0)
+	
+	
 	def start_npz(self, data):
 		self.mainapp.start_npz(data)
 	
