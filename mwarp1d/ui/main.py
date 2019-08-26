@@ -116,7 +116,6 @@ class MainWindow(QtWidgets.QMainWindow):
 		
 
 	def go_back_to_main_panel(self):
-		print('go_back_to_main_panel')
 		self._set_panel(0)
 
 	
