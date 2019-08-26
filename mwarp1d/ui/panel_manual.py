@@ -41,6 +41,7 @@ class ManualPanel(QtWidgets.QWidget):
 		self.warp_controls.applied.connect( self.on_button_warp_applied )
 		self.warp_controls.cancelled.connect( self.on_button_warp_cancelled )
 		self.warp_controls.initiated.connect( self.on_button_warp_initiated )
+		self.warp_controls.reset.connect( self.on_button_warp_reset )
 
 		shortcut_left   = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_Left ), self )
 		shortcut_right  = QtWidgets.QShortcut( QtGui.QKeySequence( QtCore.Qt.Key_Right ), self )
@@ -162,7 +163,9 @@ class ManualPanel(QtWidgets.QWidget):
 
 	def on_button_warp_initiated(self):
 		self._initiate_warp(caller='button_init')
-
+		
+	def on_button_warp_reset(self):
+		self.on_key_r()
 
 
 	def on_key_escape(self):

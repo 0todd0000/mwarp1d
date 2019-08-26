@@ -15,6 +15,7 @@ class WarpControlWidgetFreeControls(QtWidgets.QWidget):
 	head_changed      = QtCore.pyqtSignal(int)
 	head_tail_changed = QtCore.pyqtSignal(int)
 	initiated         = QtCore.pyqtSignal()
+	reset             = QtCore.pyqtSignal()
 	tail_changed      = QtCore.pyqtSignal(int)
 	
 	
@@ -38,9 +39,11 @@ class WarpControlWidgetFreeControls(QtWidgets.QWidget):
 
 
 
-		self.button_initiate.clicked.connect( self.on_initiate )
+		
 		self.button_apply.clicked.connect( self.on_apply )
 		self.button_cancel.clicked.connect( self.on_cancel )
+		self.button_initiate.clicked.connect( self.on_initiate )
+		self.button_reset.clicked.connect( self.on_reset )
 
 		self.check_syncheadtail.stateChanged.connect( self.on_syncheadtail )
 
@@ -72,6 +75,8 @@ class WarpControlWidgetFreeControls(QtWidgets.QWidget):
 		
 		
 	
+	def on_amp_changed(self, x):
+		self.amp_changed.emit(x)
 	def on_apply(self):
 		self.set_warp_enabled(False)
 		self.applied.emit()
@@ -81,14 +86,14 @@ class WarpControlWidgetFreeControls(QtWidgets.QWidget):
 	def on_initiate(self):
 		self.set_warp_enabled(True)
 		self.initiated.emit()
-	def on_amp_changed(self, x):
-		self.amp_changed.emit(x)
 	def on_head_changed(self, x):
 		if self.isheadtailsynced:
 			self.widget_tail.set_value(x)
 			self.head_tail_changed.emit(x)
 		else:
 			self.head_changed.emit(x)
+	def on_reset(self):
+		self.reset.emit()
 	def on_slider_position(self, x):
 		self.center_changed.emit(x)
 	def on_syncheadtail(self, x):
