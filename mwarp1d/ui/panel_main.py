@@ -79,8 +79,6 @@ class MainPanel(QtWidgets.QWidget):
 				y      = np.loadtxt(fname, delimiter=',')
 				y0,y   = y[0], y[1:]
 				
-				print(fname)
-
 
 				self.fname          = fname
 				self.fname1         = fname1
@@ -121,6 +119,11 @@ class MainPanel(QtWidgets.QWidget):
 		
 		self.stackedwidget.setCurrentIndex(0)
 	
+	
+	def set_fname_results(self, s):
+		self.fname1         = s
+		self.label_filename_results.setText( s )
+		
 	
 	def start_npz(self, data):
 		self.mainapp.start_npz(data)

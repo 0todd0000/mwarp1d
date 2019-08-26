@@ -12,7 +12,7 @@ def loadnpz(fname):
 		ydata_sources          = Z['ydata_sources']
 		ydata_sources_warped   = Z['ydata_sources_warped']
 	
-		if mode == 'landmarks':
+		if mode == 'landmark':
 			landmarks_template = Z['landmarks_template']
 			landmarks_sources  = Z['landmarks_sources']
 			landmark_labels    = [str(s) for s in Z['landmark_labels']]

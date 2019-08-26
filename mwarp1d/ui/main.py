@@ -59,40 +59,49 @@ class MainWindow(QtWidgets.QMainWindow):
 		
 		
 		
-		
-		
-	
+
 	
 	def _parse_commandline_inputs(self, argv):
+		argv     = argv[1:]
 		narg     = len(argv)
-		fnameCSV = argv[1] if narg>1 else None
-		mode     = argv[2] if narg>2 else None
-		fnameNPZ = argv[3] if narg>3 else None
+		mode     = None
 		
-		#default output filename:
-		if fnameNPZ is None:
-			if fnameCSV is None:
-				fnameNPZ    = os.path.join( os.getcwd(), '_mwarp1d.npz' )
-			else:
-				fnameNPZ    = os.path.join( os.path.dirname(fnameCSV), '_mwarp1d.npz' )
-			print('\n\n\nWelcome to mwarp1d!\n\nSession data will be saved to %s.\n\nTo save to a different location, change the "Results file" option.\n\n\n' %fnameNPZ)
-
-
+		if narg==0:
+			pass
+			
+		elif narg==1:
+			self.panel_main.on_drop( [argv[0]] )
+		
+		elif narg==2:
+			fnameCSV      = argv[0]
+			mode          = argv[1]
+			fnameNPZ      = os.path.join( os.path.dirname(fnameCSV), 'mwarp1d.npz' )
+			self.panel_main.on_drop( [fnameCSV]  )
+		
+		elif narg==3:
+			fnameCSV      = argv[0]
+			mode          = argv[1]
+			fnameNPZ      = argv[2]
+			self.panel_main.on_drop( [fnameCSV]  )
+			self.panel_main.set_fname_results( fnameNPZ )
+			
+		
+		
 		if mode is not None:
-			if mode not in ['landmarks', 'manual']:
-				raise ValueError('Unknown mode: %s ("mode" must be either "landmarks" or "manual")' %mode)
-			if mode == 'landmarks':
-				data = DataLandmark()
-				self.panel_landmarks.set_data(data)
-				self._set_panel(1)
+			if mode == 'landmark':
+				self.panel_main.on_button_landmarks()
+				# data = DataLandmark()
+				# self.panel_landmarks.set_data(data)
+				# self._set_panel(1)
 			elif mode == 'manual':
-				data = DataManual()
-				self.panel_manual.set_data(data)
-				self._set_panel(2)
-			data.set_input_filename( fnameCSV )
-			data.set_output_filename( fnameNPZ )
-			data.save()
-				
+				self.panel_main.on_button_manual()
+			# 	data = DataManual()
+			# 	self.panel_manual.set_data(data)
+			# 	self._set_panel(2)
+			# data.set_input_filename( fnameCSV )
+			# data.set_output_filename( fnameNPZ )
+			# data.save()
+
 
 		
 
@@ -164,7 +173,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		
 		
 	def start_npz(self, data):
-		if data.mode == 'landmarks':
+		if data.mode == 'landmark':
 			self.panel_landmarks.set_data(data, prewarped=True)
 			self._set_panel(1)
 		else:
