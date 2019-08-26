@@ -27,6 +27,12 @@ class _Figure(FigureCanvas):
 		policy.setRetainSizeWhenHidden(True)
 		self.setSizePolicy(policy)
 
+	def reset(self):
+		self.ax.figure.clf()
+		self.ax     = self.figure.add_axes([0,0,1,1])
+		self.ax.figure.canvas.draw()
+		self.tsplot = None
+
 	def set_visible(self, visible):
 		self.setVisible(visible)
 		
@@ -43,6 +49,7 @@ class FigureLandmarksRegistered(_Figure):
 		self.y            = np.random.randn(8,101) if (y is None) else y
 		self.h0           = self.ax.plot(self.y0,  lw=4,   color='k')[0]
 		self.h            = self.ax.plot(self.y.T, lw=0.5, color=self.color_source_unselected)
+		self.ax.figure.canvas.draw()
 
 	def clear_source_selection(self, update=True):
 		for h in self.h:
@@ -124,6 +131,8 @@ class FigureLandmarks(_Figure):
 		self.set_template_active       = self.tsplot.set_template_active
 		self.set_template_landmark_adding_enabled        = self.tsplot.set_template_landmark_adding_enabled
 		self.set_template_landmark_dragging_enabled      = self.tsplot.set_template_landmark_dragging_enabled
+		
+		self.ax.figure.canvas.draw()
 		
 		
 		

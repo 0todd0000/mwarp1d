@@ -22,6 +22,7 @@ class ManualPanel(QtWidgets.QWidget):
 		super().__init__(parent=parent)
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'panel_manual.ui' )
 		uic.loadUi(fnameUI, self)
+		self.mainapp   = parent
 		
 		self.data                    = None
 		self.iscurveselectionenabled = True
@@ -30,6 +31,7 @@ class ManualPanel(QtWidgets.QWidget):
 		self.warp_controls.set_warp(self.warp)
 		self.warp_controls.button_initiate.setEnabled(False)
 
+		self.button_back.clicked.connect( self.on_button_back )
 		self.button_next_curve.clicked.connect( self.on_next_curve )
 		self.button_previous_curve.clicked.connect( self.on_previous_curve )
 		self.spin_current_curve.valueChanged.connect( self.on_spin_current_curve )
@@ -76,6 +78,7 @@ class ManualPanel(QtWidgets.QWidget):
 		self.warp.set_domain_size(Q)
 		self.figure._init(y0, y)
 		self.figure.tsplot.set_warp(self.warp)
+		
 
 		#callbacks:
 		self.figure.tsplot.axes_entered.connect( self.on_axes_entered )
@@ -146,6 +149,11 @@ class ManualPanel(QtWidgets.QWidget):
 		self.warp_controls.set_headtail_synced(True)
 	
 	
+	def on_button_back(self):
+		self.mainapp.go_back_to_main_panel()
+		self.figure.reset()
+
+
 	def on_button_warp_applied(self):
 		self.on_key_return()
 

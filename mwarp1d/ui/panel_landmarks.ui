@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>973</width>
+    <width>989</width>
     <height>593</height>
    </rect>
   </property>
@@ -313,6 +313,13 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_back">
+       <property name="text">
+        <string>Back to Main Panel</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

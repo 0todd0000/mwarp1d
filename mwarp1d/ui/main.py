@@ -106,6 +106,12 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.menuBar().set_manual_panel_menu()
 		
 
+	def go_back_to_main_panel(self):
+		print('go_back_to_main_panel')
+		self._set_panel(0)
+
+	
+	
 	def get_results_filename(self, fname0, fname1=None):
 		if fname1 is None:
 			dir0   = os.path.dirname(fname0)

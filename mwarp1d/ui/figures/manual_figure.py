@@ -25,7 +25,7 @@ class _Figure(FigureCanvas):
 
 	def set_visible(self, visible):
 		self.setVisible(visible)
-
+		
 
 
 
@@ -51,6 +51,15 @@ class FigureManual(_Figure):
 		self.tsplot.set_sources( sources )
 		self.tsplot.init_legend()
 		self.tsplot.template.set_active(True)
+		self.ax.figure.canvas.draw()
+		
+
+	def reset(self):
+		self.ax.figure.clf()
+		self.ax     = self.figure.add_axes([0,0,1,1])
+		self.ax.figure.canvas.draw()
+		self.tsplot = None
+		
 
 	def update_idle(self):
 		self.ax.figure.canvas.draw_idle()

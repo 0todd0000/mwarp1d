@@ -19,6 +19,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		super().__init__(parent=parent)
 		fnameUI  = os.path.join( os.path.dirname(__file__), 'panel_landmarks.ui' )
 		uic.loadUi(fnameUI, self)
+		self.mainapp             = parent
 		self.data                = None
 		self.is_template_locked  = False
 		self.is_template_visible = True
@@ -32,6 +33,7 @@ class LandmarksPanel(QtWidgets.QWidget):
 		self.button_lock_template.setFocus(True)
 		
 		### connect callbacks (panel controls):
+		self.button_back.clicked.connect( self.on_button_back )
 		self.button_next_curve.clicked.connect( self.on_next_curve )
 		self.button_previous_curve.clicked.connect( self.on_previous_curve )
 		self.button_lock_template.clicked.connect( self.on_button_lock_template )
@@ -214,6 +216,12 @@ class LandmarksPanel(QtWidgets.QWidget):
 	def on_add_landmark_keyboard(self):
 		self.figure0.tsplot.add_landmark()
 		self.update_counts()
+	
+	
+	def on_button_back(self):
+		self.mainapp.go_back_to_main_panel()
+		self.figure0.reset()
+		self.figure1.reset()
 	
 	
 	def on_button_lock_template(self, locked, overwrite_source_landmarks=True):
