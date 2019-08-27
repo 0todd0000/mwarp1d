@@ -1,46 +1,20 @@
 '''
 Launch the mwarp1d GUI from IPython
-
-Optional arguments to the mwarp1d.launch_gui function include:
-
-* data            #2D numpy array
-* filename_data   #csv file name containing input data
-* mode   #'landmark' or 'manual'
-* filename_results  #npz file name into which warp session data will be saved
-
-The following patterns are acceptable:
-
-mwarp1d.launch_gui(data)
-mwarp1d.launch_gui(data, mode)
-mwarp1d.launch_gui(data, mode, filename_results)
-
-mwarp1d.launch_gui(filename_data)
-mwarp1d.launch_gui(filename_data, mode)
-mwarp1d.launch_gui(filename_data, mode, filename_results)
-
-mwarp1d.launch_gui(filename_results='/Users/username/results.npz')
-
 '''
 
 import mwarp1d
-
-
-
-#(Pattern 0): No input arguments
 mwarp1d.launch_gui()
 
 
 
-# #(Pattern 1): CSV data specified:
-# fnameCSV = '/Users/todd/GitHub/mwarp1d/examples/data/Dorn2012-1000nodes.csv'
-# mwarp1d.launch_gui(fnameCSV)
+#Optional input arguments are shown below as comments
+# See the following link for more details:
+#    http://www.spm1d.org/mwarp1d/manual/commandline.html
 
 
-# #(Pattern 1a): other options
-# mwarp1d.launch_gui(y, mode='landmarks')
+# launch_gui( fnameNPZ ) #resume previous session using an existing mwarp1d results file
+# launch_gui( fnameCSV ) #launch new session using data from CSV file
+# launch_gui( fnameCSV , mode ) #launch new session with CSV data in specified mode
+# launch_gui( fnameCSV , mode , fnameNPZ ) #launch new session with CSV data in specified mode, with results saved to fnameNPZ
 
 
-# #(Pattern 2): numpy data specified:
-# fnameCSV = '/Users/todd/GitHub/mwarp1d/examples/data/Dorn2012-1000nodes.csv'
-# y        = np.loadtxt(fnameCSV, delimiter=',')
-# mwarp1d.launch_gui(y)
