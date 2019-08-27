@@ -226,6 +226,8 @@ class LandmarksPanel(QtWidgets.QWidget):
 	
 	def on_button_lock_template(self, locked, overwrite_source_landmarks=True):
 		self.is_template_locked = locked
+		self.mainapp.menuBar().update_template_locked(locked)
+		
 		if locked:
 			self.button_lock_template.setText('Unlock Template')
 			self.box_table1.setEnabled(True)
