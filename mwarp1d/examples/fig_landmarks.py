@@ -15,7 +15,7 @@ y0,y1    = y[0], y[-1]   #two trials for demonstration
 #define landmarks and apply warp:
 lm0      = [9, 14, 24, 70]
 lm1      = [11, 22, 33, 73]
-y1w      = mwarp1d.warp_landmark(y1, lm0, lm1)
+y1w      = mwarp1d.warp_landmark(y1, lm1, lm0)
 
 
 #plot:
@@ -29,8 +29,8 @@ c1  = (0.98, 0.7, 0.3)
 #plot data and landmarks:
 h0  = ax0.plot(y0, color='0.0', lw=3)[0]
 h1  = ax0.plot(y1, color='0.7', lw=1)[0]
-h2  = ax0.plot(lm0[1:-1], y0[lm0[1:-1]], 'o', color=c0, ms=7)[0]
-h3  = ax0.plot(lm1[1:-1], y1[lm1[1:-1]], 'o', color=c1, ms=7)[0]
+h2  = ax0.plot(lm0, y0[lm0], 'o', color=c0, ms=7)[0]
+h3  = ax0.plot(lm1, y1[lm1], 'o', color=c1, ms=7)[0]
 ax0.legend([h0,h1,h2,h3], ['Template', 'Source', 'Template landmarks', 'Source landmarks'], loc='lower right')
 # for x in lm0[1:-1]:
 # 	ax0.plot([x,x],[y0[x],y1[x]], color=c0, ls=':', lw=1)
