@@ -272,7 +272,6 @@ class LandmarksPanel(QtWidgets.QWidget):
 
 	def on_colname_changed(self, col, s):
 		self.table1.set_collabel(col, s)
-		
 		names = self.get_landmark_names()
 		self.data.set_landmark_labels(names)
 		self.data.save()

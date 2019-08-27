@@ -101,7 +101,7 @@ class _MWarp1DData(object):
 		self.ydata_template = y
 	
 	def write_mat(self, fname):
-		savemat(fname, self.get_dictionary())
+		savemat(fname, self.get_dictionary(format='matlab'))
 		
 	def write_sources_warped_csv(self, fname):
 		np.savetxt(fname, self.ydata_sources_warped, delimiter=',')
@@ -225,9 +225,13 @@ class DataManual(_MWarp1DData):
 
 
 
-	def get_dictionary(self):
+	def get_dictionary(self, format=None):
 		d              = super().get_dictionary()
-		d['seqwarps']  = self.seqwarps
+		w              = self.seqwarps
+		if format=='matlab':
+			b          = np.array([ww is None for ww in w])
+			w[b]       = np.nan
+		d['seqwarps']  = w
 		return d
 
 
