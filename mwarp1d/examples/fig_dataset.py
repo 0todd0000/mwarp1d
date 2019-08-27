@@ -23,7 +23,7 @@ ax.axhline(0, color='k', ls=':')
 ax.text(70, 40, 'Medial', va='center')
 ax.text(70,-40, 'Lateral', va='center')
 ax.set_xlabel('Time  (%)', size=13)
-ax.set_ylabel('Mediolateral ground reaction force  (N)', size=13)
+ax.set_ylabel('Anterioposterior ground reaction force  (N)', size=12)
 pyplot.show()
 
 
