@@ -1,6 +1,6 @@
 
 '''
-functions and classes for interfacing with the UI via scripting
+Functions and classes for interfacing with the UI via scripting
 '''
 
 import numpy as np
@@ -138,11 +138,15 @@ def launch_gui(*args):
 	
 	:Arg options:
 	
-		launch_gui()                              #launch new session with no data
-		launch_gui( fnameNPZ )                    #resume previous session using an existing mwarp1d results file
-		launch_gui( fnameCSV )                    #launch new session using data from CSV file
-		launch_gui( fnameCSV , mode )             #launch new session with CSV data in specified mode
-		launch_gui( fnameCSV , mode , fnameNPZ )  #launch new session with CSV data in specified mode, with results saved to fnameNPZ
+		* launch_gui()                              #launch new session with no data
+		
+		* launch_gui( fnameNPZ )                    #resume previous session using an existing mwarp1d results file
+		
+		* launch_gui( fnameCSV )                    #launch new session using data from CSV file
+		
+		* launch_gui( fnameCSV , mode )             #launch new session with CSV data in specified mode
+		
+		* launch_gui( fnameCSV , mode , fnameNPZ )  #launch new session with CSV data in specified mode, with results saved to fnameNPZ
 	'''
 	import os
 	narg          = len(args)
@@ -284,6 +288,34 @@ def launch_gui(*args):
 
 
 def loadnpz(fname):
+	'''
+	Load mwarp1d compressed numpy (NPZ) file for results parsing.
+	
+	:Args:
+	
+		**fname** --- the NPZ file name
+	
+	:Example:
+		>>> import numpy as np
+		>>> from matplotlib import pyplot as plt
+		>>>
+		>>> with np.load(fnameNPZ) as Z:
+		>>> 	print( Z['mode'] )
+		>>> 	print( Z['ydata_template'].shape )
+		>>> 	print( Z['ydata_sources'].shape )
+		>>> 	print( Z['ydata_sources_warped'].shape )
+		>>> 	
+		>>> 	y = Z['ydata_sources']
+		>>>
+		>>> plt.figure()
+		>>> plt.plot( y.T )
+		>>> plt.show()
+	
+	
+	:See also:
+	
+		 :ref:`Parsing GUI results <Parsing GUI results>`
+	'''
 	return MWarpResults(fname)
 	
 
