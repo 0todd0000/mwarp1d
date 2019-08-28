@@ -65,7 +65,6 @@ class _WarpableLine(_SelectableArtist2D):
 	def set_warped_ydata(self, y):
 		self.yw        = y
 		self.h.set_ydata(y)
-		# print('okok')
 
 	def toggle_original_source_visibility(self):
 		self.h0.set_visible( not self.h0.get_visible() )

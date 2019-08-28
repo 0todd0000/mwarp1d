@@ -68,7 +68,6 @@ ax0.plot([c]*2, [0,dq.max()], color='k', ls=':')
 xh,xt = 10,58
 ax0.plot([xh,c], [dq[xh]]*2, color='k', ls=':')
 ax0.plot([c,xt], [dq[xt]]*2, color='k', ls=':')
-# print(dq[xh]/dq.max(), dq[xt]/dq.max())
 
 
 bbox = dict(facecolor='w', edgecolor='0.7', alpha=0.9)

@@ -177,7 +177,6 @@ class WarpControlWidget(WarpControlWidgetFreeControls):
 	
 	def on_amp_changed(self, x):
 		x   = 0.01 * x
-		# print(x)
 		self.warp.set_amp( x )
 		self.amp_changed.emit(x)
 		if not self.isexternal:

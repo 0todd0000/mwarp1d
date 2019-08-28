@@ -248,7 +248,6 @@ class ManualPanel(QtWidgets.QWidget):
 			self.figure.tsplot.set_template_active()
 		else:
 			self.figure.tsplot.set_source_active(ind-1)
-		# print(ind)
 		self.figure.update_idle()
 
 	def on_warp_click_applied(self):

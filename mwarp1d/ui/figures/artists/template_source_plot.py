@@ -115,17 +115,14 @@ class TemplateSourcePlot(QtCore.QObject):
 		else:
 			self.crosshairs.set_visible(False)
 			self.ax.figure.canvas.draw()
-		# print( self.template.landmarks.h.get_xdata() )
 	
 	
 
 	def on_template_landmark_added(self, ind, value):
-		# print('TemplateSourcePlot on_template_landmark_added', ind, value)
 		self.template_landmark_added.emit(ind, value)
 
 
 	def on_landmark_dragged(self, obj, ind, x, y):
-		# print(obj, ind, x, y)
 		self.dragging_stopped_emitted = False
 		if obj == self.template.landmarks:
 			self.template_point_dragged.emit(ind, x, y)

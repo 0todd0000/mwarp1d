@@ -24,7 +24,7 @@ class _Menu(QtWidgets.QMenu):
 	def on_apply_warps(self):
 		dialog = ApplyDialog(self.panel)
 		if dialog.exec_() == QtWidgets.QDialog.Accepted:  #"save" selected
-			pass  #print('Warps applied')
+			pass
 		else: #"cancel" selected
 			pass
 

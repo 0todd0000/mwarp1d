@@ -61,32 +61,13 @@ class _LandmarksTableModel(QtCore.QAbstractTableModel):
 			elif orientation == QtCore.Qt.Vertical:
 				return str(section+self.firstrow)
 				
-		# elif role == QtCore.Qt.BackgroundRole:
 		elif role == QtCore.Qt.ForegroundRole:
-			# print('background')
 			if orientation == QtCore.Qt.Vertical:
 				if self.landmarks[section].isflagged:
 					return QtGui.QBrush(QtCore.Qt.red)
 				else:
 					return QtGui.QBrush(QtCore.Qt.black)
 		
-
-	# def setData(self, index, value, role=QtCore.Qt.EditRole):
-	# 	if index.isValid():
-	# 		# row = index.row()
-	# 		col = index.column()
-	# 		self.template.h.get_xdata()[col] = value
-	# 		self.dataChanged.emit(index, index, (QtCore.Qt.DisplayRole, ))
-	# 		return True
-	# 	return False
-
-	# def update(self):
-		
-
-
-
-
-
 
 
 
@@ -247,16 +228,11 @@ class _LandmarksTable(QtWidgets.QTableView):
 	def set_collabel(self, col, s):
 		self.model.collabels[col] = s
 	
-	# def set_landmark_labels(self, ss):
-	# 	for i,s in enumerate(ss):
-	# 		self.set_collabel(i, s)
-	# 		self.colname_changed.emit(i, s)
 	
 	def set_null_values(self, null=True):
 		self.model.nullvalues = null
 	
 	def update(self):
-		# print('table update')
 		# index = QtCore.QModelIndex()
 		# self.model.dataChanged.emit(index, index, (QtCore.Qt.DisplayRole, ))
 		# self.model.layoutChanged.emit()
