@@ -1,7 +1,7 @@
 
 import os
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import mwarp1d
 
 
@@ -28,9 +28,9 @@ q0       = warps[0].get_original_domain()
 
 
 #plot:
-pyplot.close('all')
-pyplot.figure( figsize=(6,4) )
-ax = pyplot.axes([0.12,0.12,0.87,0.87])
+plt.close('all')
+plt.figure( figsize=(6,4) )
+ax = plt.axes([0.12,0.12,0.87,0.87])
 colors = 'r', 'g', 'b'
 #plot warped domains:
 ax.plot(q0, q0, 'k', lw=5)
@@ -39,10 +39,10 @@ for q,c in zip(qw,colors):
 ax.legend(['Unwarped domain', 'Warped domain 1', 'Warped domain 2', 'Warped domain 3'], loc='lower right')
 ax.set_xlabel('Unwarped domain  (%)', size=13)
 ax.set_ylabel('Warped domain  (%)', size=13)
-pyplot.show()
+plt.show()
 
 
 # #save figure:
 # dir0     = os.path.dirname(__file__)
 # fnamePDF = os.path.join(dir0, 'figs', 'fig_warped_domains.pdf')
-# pyplot.savefig(fnamePDF)
+# plt.savefig(fnamePDF)

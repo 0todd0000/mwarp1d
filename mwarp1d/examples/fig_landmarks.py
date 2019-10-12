@@ -1,7 +1,7 @@
 
 import os
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import mwarp1d
 
 
@@ -19,11 +19,11 @@ y1w      = mwarp1d.warp_landmark(y1, lm1, lm0)
 
 
 #plot:
-pyplot.close('all')
-pyplot.figure( figsize=(10,4) )
+plt.close('all')
+plt.figure( figsize=(10,4) )
 #create axes:
-ax0 = pyplot.axes([0.08,0.12,0.42,0.84])
-ax1 = pyplot.axes([0.57,0.12,0.42,0.84])
+ax0 = plt.axes([0.08,0.12,0.42,0.84])
+ax1 = plt.axes([0.57,0.12,0.42,0.84])
 c0  = (0.3, 0.3, 0.98)
 c1  = (0.98, 0.7, 0.3)
 #plot data and landmarks:
@@ -51,9 +51,9 @@ ax0.set_ylabel('Mediolateral ground reaction force  (N)', size=13)
 #add panel labels:
 ax0.text(-3, 520, '(a)', size=14)
 ax1.text(-3, 520, '(b)', size=14)
-pyplot.show()
+plt.show()
 
 
 # #save figure:
 # fnamePDF = os.path.join(dir0, 'figs', 'fig_landmarks.pdf')
-# pyplot.savefig(fnamePDF)
+# plt.savefig(fnamePDF)

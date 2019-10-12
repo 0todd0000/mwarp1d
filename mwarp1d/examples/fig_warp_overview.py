@@ -1,7 +1,7 @@
 
 import os
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import mwarp1d
 
 
@@ -39,15 +39,15 @@ yw       = [w.apply_warp(y) for w in warps]
 
 
 #plot:
-pyplot.close('all')
-pyplot.figure( figsize=(12,8) )
+plt.close('all')
+plt.figure( figsize=(12,8) )
 #create axes:
 axx,axy = [0.065, 0.575], [0.55, 0.06]
 axw,axh = 0.42, 0.40
-ax0    = pyplot.axes([axx[0],axy[0],axw,axh])
-ax1    = pyplot.axes([axx[1],axy[0],axw,axh])
-ax2    = pyplot.axes([axx[0],axy[1],axw,axh])
-ax3    = pyplot.axes([axx[1],axy[1],axw,axh])
+ax0    = plt.axes([axx[0],axy[0],axw,axh])
+ax1    = plt.axes([axx[1],axy[0],axw,axh])
+ax2    = plt.axes([axx[0],axy[1],axw,axh])
+ax3    = plt.axes([axx[1],axy[1],axw,axh])
 colors = 'r', 'g', 'b'
 
 
@@ -108,9 +108,9 @@ ax3.set_ylabel('Ground reaction force  (N)', size=13)
 for i,ax in enumerate([ax0,ax1,ax2,ax3]):
 	ax.text(0.03, 0.92, '(%s)'%chr(97+i), size=14, transform=ax.transAxes)
 
-pyplot.show()
+plt.show()
 
 
 # #save figure:
 # fnamePDF = os.path.join(dir0, 'figs', 'fig_warp_overview.pdf')
-# pyplot.savefig(fnamePDF)
+# plt.savefig(fnamePDF)

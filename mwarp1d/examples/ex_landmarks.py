@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import mwarp1d
 
 
@@ -13,14 +13,14 @@ yw       = mwarp1d.warp_landmark(y, lm1, lm0)  #warped source
 
 
 #plot:
-pyplot.close('all')
-pyplot.figure( figsize=(6,4) )
-ax = pyplot.axes([0.12,0.12,0.87,0.87])
+plt.close('all')
+plt.figure( figsize=(6,4) )
+ax = plt.axes([0.12,0.12,0.87,0.87])
 ax.plot(y, label='Original')
 ax.plot(yw, label='Warped')
 ax.legend()
 ax.set_xlabel('Domain position  (%)', size=13)
 ax.set_ylabel('Dependent variable value', size=13)
-pyplot.show()
+plt.show()
 
 

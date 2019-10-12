@@ -1,7 +1,7 @@
 
 import os
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 
 
 #load data:
@@ -11,9 +11,9 @@ y        = np.loadtxt(fnameCSV, delimiter=',')
 
 
 #plot:
-pyplot.close('all')
-pyplot.figure( figsize=(6,4) )
-ax = pyplot.axes([0.12,0.12,0.87,0.87])
+plt.close('all')
+plt.figure( figsize=(6,4) )
+ax = plt.axes([0.12,0.12,0.87,0.87])
 h0 = ax.plot(y[0:2].T, color='k')[0]
 h1 = ax.plot(y[2:4].T, color='r')[0]
 h2 = ax.plot(y[4:6].T, color='g')[0]
@@ -24,9 +24,9 @@ ax.text(70, 40, 'Medial', va='center')
 ax.text(70,-40, 'Lateral', va='center')
 ax.set_xlabel('Time  (%)', size=13)
 ax.set_ylabel('Anterioposterior ground reaction force  (N)', size=12)
-pyplot.show()
+plt.show()
 
 
 # #save figure:
 # fnamePDF = os.path.join(dir0, 'figs', 'fig_dataset.pdf')
-# pyplot.savefig(fnamePDF)
+# plt.savefig(fnamePDF)
