@@ -1,6 +1,6 @@
 
 '''
-manual warping classes and functions
+Manual warping classes and functions
 '''
 
 from copy import copy,deepcopy

@@ -1,6 +1,6 @@
 
 '''
-landmark warping functions
+Landmark warping functions
 '''
 
 import numpy as np
