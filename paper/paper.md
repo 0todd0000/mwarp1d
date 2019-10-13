@@ -46,9 +46,7 @@ Warping 1D data has been shown to be necessary for minimizing variability in a v
 
 # Figures
 
-![Figure 1](figure.png)
-
-Figure 1: Example 1D warp.
+![Example 1D warp.](figure.png)
 
 # References
 
