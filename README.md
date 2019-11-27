@@ -2,7 +2,7 @@
 Manual one-dimensional data warping and nonlinear registration in Python and PyQt
 
 <p align="center">
-<img src="paper/figure.png" alt="mwarp1d" width="300">
+<img src="paper/figure.png" alt="mwarp1d" width="480">
 </p>
 
 
