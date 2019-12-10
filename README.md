@@ -1,12 +1,17 @@
+[![DOI](https://zenodo.org/badge/190681079.svg)](https://zenodo.org/badge/latestdoi/190681079)
+
 # mwarp1d
+
 Manual one-dimensional data warping and nonlinear registration in Python and PyQt
+
+<br>
 
 <p align="center">
 <img src="paper/figure.png" alt="mwarp1d" width="480">
 </p>
 
 
-
+<br>
 
 
 ## Overview
