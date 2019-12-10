@@ -3,11 +3,11 @@
 mwarp1d:  Manual one-dimensional data warping and nonlinear registration in Python and PyQt
 
 Copyright (C) 2019  Todd Pataky
-Version: 0.1.0 (2019/10/12)
+Version: 0.2 (2019/12/10)
 '''
 
 
-__version__ = '0.1.0'
+__version__ = '0.2'
 
 from . manual import *
 from . landmark import *
