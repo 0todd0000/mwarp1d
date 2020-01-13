@@ -26,7 +26,7 @@ Manual one-dimensional data warping and nonlinear registration in Python and PyQ
 
 Please cite:
 
-Pataky TC, Naouma H, Donnelly CJ (in review). mwarp1d: Manual one-dimensional data warping in Python and PyQt. Journal of Open Source Software. [Journal of Open Source Software](https://joss.theoj.org).
+Pataky TC, Naouma H, Donnelly CJ (2019). mwarp1d: Manual one-dimensional data warping in Python and PyQt. Journal of Open Source Software 4(44), 1870. DOI: [10.21105/joss.01870](https://doi.org/10.21105/joss.01870)
 
 
 
