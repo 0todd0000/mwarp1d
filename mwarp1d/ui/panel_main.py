@@ -31,6 +31,14 @@ class MainPanel(QtWidgets.QWidget):
 		self.label_filename_results.clicked.connect( self.on_button_filename )
 		
 	
+	@staticmethod
+	def _loadtxt(fname):
+		try:
+			y = np.loadtxt(fname, delimiter=',')
+		except ValueError:
+			y = np.loadtxt(fname, delimiter=',', encoding='utf-8-sig')
+		return y
+	
 	def _plot(self):
 		y0 = self.template_array
 		y  = self.sources_array
@@ -76,7 +84,7 @@ class MainPanel(QtWidgets.QWidget):
 			self.mainapp.set_default_directory(  os.path.dirname(fname)  )
 			if ext=='.csv':
 				fname1 = self.mainapp.get_results_filename(fname)
-				y      = np.loadtxt(fname, delimiter=',')
+				y      = self._loadtxt(fname)
 				y0,y   = y[0], y[1:]
 				
 
