@@ -1,6 +1,6 @@
 package:
   name: mwarp1d
-  version: 0.1.0
+  version: 0.2.1
 
 
 source:
@@ -16,16 +16,16 @@ requirements:
   build:
     - python
     - setuptools
-    - numpy >=1.16
-    - scipy >=1.2
-    - matplotlib >=3.0
+    - numpy
+    - scipy
+    - matplotlib
     - nose
     - future
   run:
     - python
-    - numpy >=1.16
-    - scipy >=1.2
-    - matplotlib >=3.0
+    - numpy
+    - scipy
+    - matplotlib
     - future
 
 # test:
