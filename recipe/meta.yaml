@@ -11,10 +11,9 @@ build:
   script: python setup.py install
   number: 3
 
-
 requirements:
   build:
-    - python >=3.7
+    - python
     - setuptools
     - numpy
     - scipy
@@ -22,7 +21,7 @@ requirements:
     - nose
     - future
   run:
-    - python >=3.7
+    - python
     - numpy
     - scipy
     - matplotlib
